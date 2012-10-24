@@ -1,8 +1,9 @@
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
+from urllib.parse import urlencode
 import re
 
-html_data = BeautifulSoup(urlopen("http://www.instapaper.com/m?u=http%3A%2F%2Fwww.theverge.com%2F2012%2F10%2F23%2F3544788%2Fapple-ipad-mini-pricing-lower-cost-tablet").read())
+html_data = BeautifulSoup(urlopen("http://www.instapaper.com/m?%s" % urlencode({'u':'http://www.theverge.com/2012/10/23/3540550/microsoft-surface-review'})).read())
 html_data = html_data.find('body')
 
 anchors = html_data.findAll('a')
