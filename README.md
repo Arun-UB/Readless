@@ -1,0 +1,25 @@
+Readless
+========
+
+An intelligent feed reader 
+
+Setup
+-----
+
+To start off, make a blank directory and enter it
+'mkdir Readless && cd Readless'
+
+Create a Virtualenv
+'virtualenv venv-Readless --distribute'
+
+To work within the new environment, you’ll need to activate it:
+'source venv-Readless/bin/activate'
+
+This will change your prompt to include the project name.
+(You must source the virtualenv environment for each terminal session where you wish to run your app.)
+
+To exit the environment:
+'deactivate'
+
+Use pip to install all required dependencies
+'pip install -r requirements.txt'
