@@ -1,10 +1,9 @@
 from bs4 import BeautifulSoup
-from urllib.request import urlopen
-from urllib.parse import urlencode
+import urllib
 import re, argparse, sys
 
 def strip_html(url):
-    html_data = BeautifulSoup(urlopen("http://www.instapaper.com/m?%s" % urlencode({'u':url})).read())
+    html_data = BeautifulSoup(urllib.urlopen("http://www.instapaper.com/m?%s" % urllib.urlencode({'u':url})).read())
     html_data = html_data.find('body')
     
     anchors = html_data.findAll('a')
