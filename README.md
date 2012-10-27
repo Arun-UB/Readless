@@ -15,13 +15,6 @@ Then clone this repository
 
     git clone https://github.com/ajy/Readless.git
 
-
-Get all submodules(like the angularjs subrepo)
-
-    git submodule init
-    git submodule update
-
-
 Create a Virtualenv
 
     virtualenv venv-Readless --distribute
