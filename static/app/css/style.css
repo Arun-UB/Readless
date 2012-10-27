@@ -126,7 +126,7 @@ section.mainContent div {
   padding: 10px;
   box-sizing: border-box;
   -webkit-box-flex: 1;
-  overflow-y: scroll;
+  overflow-y:scroll;
   padding-left: 10px;
   -webkit-overflow-scrolling: touch;
 }
