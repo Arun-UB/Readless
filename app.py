@@ -4,6 +4,7 @@
 from pymongo import Connection
 from pymongo.errors import AutoReconnect
 from flask import Flask, g
+import settings
 
 #create the application
 app = Flask(__name__)
@@ -47,8 +48,8 @@ def after_request(response):
 #set the correct config and decide what to  do
 if __name__ == '__main__':
   #we are running the server
-  app.config.from_object('dev_conf')
+  app.config.from_object('settings.DevConfig')
   app.run()
 else:
   #looks like we aren't a server
-  app.config.from_object('test_conf')
+  app.config.from_object('settings.TestConfig')
