@@ -41,6 +41,5 @@ if os.environ.get('ENV')=='dev':
 #create the db connection
 db = create_db_connection(app.config)
 
-#start the server if required
-if __name__ == '__main__':
-  app.run()
+# load server routes
+import routes
