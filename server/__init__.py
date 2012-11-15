@@ -41,5 +41,8 @@ if os.environ.get('ENV')=='dev':
 #create the db connection
 db = create_db_connection(app.config)
 
+#load models
+from models import *
+
 # load server routes
 import routes
