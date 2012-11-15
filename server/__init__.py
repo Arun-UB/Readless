@@ -19,7 +19,7 @@ if os.environ.get('ENV')=='dev':
 db = MongoEngine(app)
 
 #load models
-from models import *
+import models
 
 # load server routes
 import routes
