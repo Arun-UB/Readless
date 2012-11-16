@@ -5,7 +5,6 @@ class Features(db.EmbeddedDocument):
     pass
 
 class Reader(db.EmbeddedDocument):
-    #TODO:implementation
     user = db.ReferenceField('User', dbref = False)# the false setting here will make mongoengine use ObjectId strings here, i think
     score = db.FloatField(min_value = 0, max_value = 1, default = 0.5)
 

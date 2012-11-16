@@ -9,7 +9,6 @@ class Subscription(db.EmbeddedDocument):
     category = db.StringField()
 
 class User(db.Document):
-# name, email-id, password, Subscriptions(an embedded collection)
     name = db.StringField(required = True)
     email = db.EmailField(required = True, unique = True)
     password_hash = db.StringField(max_length = 160)
