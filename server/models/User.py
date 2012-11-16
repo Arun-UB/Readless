@@ -3,9 +3,10 @@ from flask.ext.login import UserMixin
 
 class Subscription(db.EmbeddedDocument):
     '''
-    a passable implementation, need to add other fields for storing classifier
+    a passable implementation
+    TODO: need to add other fields for storing classifier
     '''
-    feed = db.ReferenceField('Feed', dbref = True)#lazily dereferenced on access
+    feed_id = db.ObjectIdField()
     category = db.StringField()
 
 class User(db.Document):

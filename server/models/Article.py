@@ -10,6 +10,6 @@ class Reader(db.EmbeddedDocument):
 
 class Article(db.Document):
     source_url = db.URLField(verify_exists = True)
-    feed = db.ReferenceField('Feed', dbref = True)#lazily dereferenced on access
+    feed_id = db.ObjectIdField()
     features = db.EmbeddedDocumentField('Features')
     readers = db.ListField(db.EmbeddedDocumentField('Reader'))
