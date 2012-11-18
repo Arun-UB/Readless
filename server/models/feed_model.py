@@ -10,7 +10,7 @@ class Feed(db.Document):
 
     def save(self, *args, **kwargs):
         '''
-        this overrides the default save method so that the last_update field 
+        this overrides the default save method so that the last_update field
         is set to the current time and then calls the default save method
         '''
         self.last_update = datetime.datetime.now

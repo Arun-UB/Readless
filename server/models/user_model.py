@@ -14,6 +14,3 @@ class User(db.Document, UserMixin):
     email = db.EmailField(required = True, unique = True)
     password_hash = db.StringField(max_length = 160)
     subscriptions = db.ListField(db.EmbeddedDocumentField(Subscription))
-
-    # def get_id(self):
-    #     return unicode(self._id)
