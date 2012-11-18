@@ -17,16 +17,13 @@ def login():
     if request.method == 'POST':
         try:
             user = User.objects.get(email = request.form['email'])
+            if check_password_hash(user.password_hash, request.form['password']) is True:
+                login_user(user)
+                return redirect(url_for('index'))
+            else:
+                error = 'Invalid Password'
         except DoesNotExist:
             error = 'Invalid username'
-
-        if check_password_hash(user.password_hash, request.form['password']) is False:
-            error = 'Invalid Password'
-
-        if error is None:
-            login_user(user)
-            return redirect(url_for('index'))
-
     return render_template('login.html', error=error)
 
 @app.route("/logout")
