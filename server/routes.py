@@ -39,14 +39,10 @@ def logout():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     error = None
-    app.logger.info('tried to access signup route')
     if request.method == 'POST':
-        app.logger.info('trying to get you signed up')
         new_user = User(email = request.form['email'], name = request.form['name'], password_hash = generate_password_hash(request.form['password']))
         try:
-            app.logger.info('trying to validate and save a user')
             new_user.save(safe = True, force_insert=True)
-            app.logger.info('saved successfully')
             flash('successfully signed up')
             return redirect(url_for('login'))
         except ValidationError as e:
