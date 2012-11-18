@@ -1,6 +1,6 @@
 from . import app, db
 from models import User
-from flask.ext.mongoengine import DoesNotExist, ValidationError
+from flask.ext.mongoengine import DoesNotExist, ValidationError, OperationError
 from flask import Response, request, render_template, redirect, url_for, flash
 from flask.ext.login import login_required, logout_user, login_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -21,9 +21,9 @@ def login():
                 login_user(user)
                 return redirect(url_for('index'))
             else:
-                error = 'Invalid Password'
+                error = 'Incorrect Password'
         except DoesNotExist:
-            error = 'Invalid username'
+            error = 'User with this email id does not exist'
     return render_template('login.html', error=error)
 
 @app.route("/logout")
@@ -39,9 +39,12 @@ def signup():
     if request.method == 'POST':
         new_user = User(email = request.form['email'], name = request.form['name'], password_hash = generate_password_hash(request.form['password']))
         try:
-            new_user.save(safe = True, force_insert=True)
+            new_user.save(safe = True, force_insert=True)#waits for result and forces inserts
             flash('successfully signed up')
             return redirect(url_for('login'))
+        except OperationError:
+            app.logger.error('An attempt has been made to sign up with existing email id '+request.form['email'])
+            error = 'User with this email id already exists'
         except ValidationError as e:
             if e.errors.get('email'):
                 error = 'Invalid email'
