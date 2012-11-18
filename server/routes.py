@@ -1,6 +1,6 @@
 from . import app, db
 from models import User
-from flask.ext.mongoengine import DoesNotExist, ValidationError, OperationError
+from flask.ext.mongoengine import DoesNotExist, ValidationError
 from flask import Response, request, render_template, redirect, url_for, flash
 from flask.ext.login import login_required, logout_user, login_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -42,8 +42,7 @@ def signup():
             new_user.save(safe = True, force_insert=True)#waits for result and forces inserts
             flash('successfully signed up')
             return redirect(url_for('login'))
-        except OperationError:
-            app.logger.error('An attempt has been made to sign up with existing email id '+request.form['email'])
+        except db.NotUniqueError:
             error = 'User with this email id already exists'
         except ValidationError as e:
             if e.errors.get('email'):
