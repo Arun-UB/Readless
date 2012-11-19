@@ -64,15 +64,16 @@ def index():
 @app.route('/markRead/<article_id>')
 @login_required
 def MarkRead(article_id):
-    #TODO: fix it, test it
-    Article.objects.filter(id = article_id).update_one(pull__readers__id=current_user.id)
+    #TODO: test it
+    Article.objects.filter(id = article_id).update_one(pull__readers__id = current_user.id)
     pass
 
 @app.route('/markUnread/<article_id>')
 @login_required
 def MarkUnread(article_id):
-    #TODO: fix it, test it
-    Article.objects.filter(id = article_id).update_one(add_to_set__readers__id=current_user.id)
+    #TODO: test it
+    new_reader = Reader(user = current_user)
+    Article.objects.filter(id = article_id).update_one(add_to_set__readers = new_reader)
     pass
 
 @app.route('/subscribe/<path:rss_url>/<category>')
