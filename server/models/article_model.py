@@ -1,11 +1,12 @@
 from server import db
+import datetime
 
 class Features(db.EmbeddedDocument):
-    #TODO:implementation
-    pass
+    title = db.StringField(required = True)
+    content_snippet = db.StringField()
 
 class Reader(db.EmbeddedDocument):
-    user = db.ReferenceField('User', dbref = False)# the false setting here will make mongoengine use ObjectId strings here, i think
+    user = db.ReferenceField('User', dbref = False)# the false setting here will make mongoengine use ObjectId strings here
     score = db.FloatField(min_value = 0, max_value = 1, default = 0.5)
 
 class Article(db.Document):
@@ -13,3 +14,4 @@ class Article(db.Document):
     feed_id = db.ObjectIdField()
     features = db.EmbeddedDocumentField('Features')
     readers = db.ListField(db.EmbeddedDocumentField('Reader'))
+    time_stamp = db.DateTimeField(default = datetime.datetime.now())
