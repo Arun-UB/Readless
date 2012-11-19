@@ -54,9 +54,36 @@ def signup():
             elif e.errors.get('name'):
                 error = 'Invalid name'
             else:
-                error = 'A validation error occured'
+                app.logger.error('An unknown validation error occured while trying to sign up a user')
     return render_template('signup.html', error=error)
 
 @app.route('/index')
 def index():
     return render_template('index.html')
+
+@app.route('/markRead/<article_id>')
+@login_required
+def MarkRead(article_id):
+    #TODO: fix it, test it
+    Article.objects.filter(id = article_id).update_one(pull__readers__id=current_user.id)
+    pass
+
+@app.route('/markUnread/<article_id>')
+@login_required
+def MarkUnread(article_id):
+    #TODO: fix it, test it
+    Article.objects.filter(id = article_id).update_one(add_to_set__readers__id=current_user.id)
+    pass
+
+@app.route('/subscribe/<path:rss_url>/<category>')
+@login_required
+def Subscribe(rss_url, category):
+    try:
+        feed = Feed.get_or_construct(rss_url)
+    except NotAFeed:
+        return jsonify(dict(status = 'Error', message='The given url is not an rss feed url'))
+    new_subscription = Subscription(feed_id = feed.id, category = category)
+    new_subscription.save()
+    current_user.subscriptions.push(new_subscription)
+    current_user.save()
+    return jsonify(dict(status = 'Success'))
