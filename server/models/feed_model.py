@@ -1,4 +1,6 @@
 from server import db
+from flask.ext.mongoengine import DoesNotExist
+import feedparser
 import datetime
 
 class Feed(db.Document):
@@ -15,3 +17,26 @@ class Feed(db.Document):
         '''
         self.last_update = datetime.datetime.now
         return super(Feed, self).save(*args, **kwargs)
+
+    def get_or_construct(rssUrl):
+        '''
+        attempts to get a Feed object based on the rssUrl provided, in case it is not found,
+        attempts to construct a new Feed object and return that
+        '''
+        try:
+            feed = Feed.objects.get(rss_url = rssUrl)
+        except DoesNotExist:
+            rss_dict = feedparser.parse(rssUrl)
+            if rss_dict.version is '':
+                raise NotAFeed('the given url was not a recognized feed format')
+            new_feed = Feed(\
+                            name = rss_dict.feed.title\
+                            , site_url = rss_dict.feed.link\
+                            , rss_url = rssUrl\
+                            )
+            new_feed.save()
+            feed = new_feed
+        return feed
+
+class NotAFeed(Exception):
+    pass
