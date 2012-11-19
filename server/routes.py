@@ -3,7 +3,7 @@ from flask.ext.mongoengine import DoesNotExist, ValidationError
 from flask import Response, request, render_template, redirect, url_for, flash, jsonify
 from flask.ext.login import login_required, logout_user, login_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import User, Article, Feed, Subscription, NotAFeed
+from models import User, Article, Reader, Feed, Subscription, NotAFeed
 
 @app.route('/show_db_name')
 def test_config():
@@ -87,3 +87,13 @@ def Subscribe(rss_url, category):
     current_user.subscriptions.push(new_subscription)
     current_user.save()
     return jsonify(dict(status = 'Success'))
+
+@app.route('/unsubscribe/<path:rss_id>')
+@login_required
+def Unsubscribe(rss_id):
+    try:
+        feed_to_be_removed = Feed.get(id = rss_id)
+        User.objects.filter(id = current_user.id).update_one(pull__subscriptions__id = feed_to_be_removed.id)
+        return jsonify(dict(status = 'Success'))
+    except DoesNotExist:
+        return jsonify(dict(status = 'Error', message = 'Given feed does not exist'))
