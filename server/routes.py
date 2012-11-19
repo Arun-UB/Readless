@@ -1,9 +1,9 @@
 from . import app, db
-from models import User
 from flask.ext.mongoengine import DoesNotExist, ValidationError
-from flask import Response, request, render_template, redirect, url_for, flash
-from flask.ext.login import login_required, logout_user, login_user
+from flask import Response, request, render_template, redirect, url_for, flash, jsonify
+from flask.ext.login import login_required, logout_user, login_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from models import User, Article, Feed, Subscription, NotAFeed
 
 @app.route('/show_db_name')
 def test_config():
@@ -37,7 +37,11 @@ def logout():
 def signup():
     error = None
     if request.method == 'POST':
-        new_user = User(email = request.form['email'], name = request.form['name'], password_hash = generate_password_hash(request.form['password']))
+        new_user = User(\
+                        email = request.form['email']\
+                        , name = request.form['name']\
+                        , password_hash = generate_password_hash(request.form['password'])\
+                        )
         try:
             new_user.save(safe = True, force_insert=True)#waits for result and forces inserts
             flash('successfully signed up')
