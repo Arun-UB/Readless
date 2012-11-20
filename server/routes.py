@@ -96,3 +96,20 @@ def Unsubscribe(rss_id):
         return jsonify(dict(status = 'Success'))
     except DoesNotExist:
         return jsonify(dict(status = 'Error', message = 'Given feed does not exist'))
+
+@app.route('/getSubscribed')
+@login_required
+def GetSubscribed():
+    items = []
+    for subscription in current_user.subscriptions:
+        feed = Feed.objects.get(id = subscription.feed_id)
+        UnreadArticleCount = Article.objects(feed_id = subscription.feed_id).count()
+        item = dict(\
+                    #feed_id is encoded as string to allow it to be sent as JSON
+                    feed_id = str( subscription.feed_id )\
+                    , feed_name = feed.name\
+                    , category = subscription.category\
+                    , UnreadCount = UnreadArticleCount\
+                    )
+        items.append(item)
+    return jsonify(dict(subscriptions = items))
