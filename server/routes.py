@@ -91,8 +91,8 @@ def Subscribe(rss_url, category):
 @login_required
 def Unsubscribe(rss_id):
     try:
-        feed_to_be_removed = Feed.get(id = rss_id)
-        User.objects.filter(id = current_user.id).update_one(pull__subscriptions__id = feed_to_be_removed.id)
+        feed_to_be_removed = Feed.objects.get(id = rss_id)
+        User.objects.filter(id = current_user.id).update_one(pull__subscriptions__feed_id = feed_to_be_removed.id)
         return jsonify(dict(status = 'Success'))
     except DoesNotExist:
         return jsonify(dict(status = 'Error', message = 'Given feed does not exist'))
