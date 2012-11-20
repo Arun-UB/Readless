@@ -15,9 +15,10 @@ class Feed(db.Document):
         this overrides the default save method so that the last_update field
         is set to the current time and then calls the default save method
         '''
-        self.last_update = datetime.datetime.now
+        self.last_update = datetime.datetime.now()
         return super(Feed, self).save(*args, **kwargs)
 
+    @staticmethod
     def get_or_construct(rssUrl):
         '''
         attempts to get a Feed object based on the rssUrl provided, in case it is not found,

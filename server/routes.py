@@ -84,9 +84,7 @@ def Subscribe(rss_url, category):
     except NotAFeed:
         return jsonify(dict(status = 'Error', message='The given url is not an rss feed url'))
     new_subscription = Subscription(feed_id = feed.id, category = category)
-    new_subscription.save()
-    current_user.subscriptions.push(new_subscription)
-    current_user.save()
+    User.objects.filter(id = current_user.id).update_one(push__subscriptions = new_subscription)
     return jsonify(dict(status = 'Success'))
 
 @app.route('/unsubscribe/<path:rss_id>')
