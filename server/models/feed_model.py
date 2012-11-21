@@ -4,6 +4,7 @@ import feedparser
 import datetime
 
 class Feed(db.Document):
+    '''A document that represents the feeds we are keeping track of'''
     name = db.StringField(required = True)
     site_url = db.URLField(verify_exists = True)
     rss_url = db.URLField(verify_exists = True, unique = True, required = True)
