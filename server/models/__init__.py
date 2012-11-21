@@ -1,3 +1,3 @@
-from user_model import User
-from article_model import Article
-from feed_model import Feed
+from user_model import *
+from article_model import *
+from feed_model import *

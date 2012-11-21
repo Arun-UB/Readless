@@ -6,7 +6,7 @@ class Features(db.EmbeddedDocument):
     content_snippet = db.StringField()
 
 class Reader(db.EmbeddedDocument):
-    user = db.ReferenceField('User', dbref = False)# the false setting here will make mongoengine use ObjectId strings here
+    user_id = db.ObjectIdField()
     score = db.FloatField(min_value = 0, max_value = 1, default = 0.5)
 
 class Article(db.Document):
