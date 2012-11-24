@@ -83,15 +83,15 @@ def MarkUnread(article_id):
     Article.objects.filter(id = article_id).update_one(add_to_set__readers = new_reader)
     return jsonify(dict(status = 'Success'))
 
-@app.route('/subscribe/<path:rss_url>/<category>')
+@app.route('/subscribe/<path:rss_url>')
 @login_required
-def Subscribe(rss_url, category):
+def Subscribe(rss_url):
     '''Logic to add a given rss feed to the db, if required, and subscribe the current user to this feed'''
     try:
         feed = Feed.get_or_construct(rss_url)
     except NotAFeed:
         return jsonify(dict(status = 'Error', message='The given url is not an rss feed url'))
-    new_subscription = Subscription(feed_id = feed.id, category = category)
+    new_subscription = Subscription(feed_id = feed.id)
     #atomically add new feed subscription to current user
     User.objects.filter(id = current_user.id).update_one(add_to_set__subscriptions = new_subscription)
     return jsonify(dict(status = 'Success'))
@@ -122,7 +122,6 @@ def GetSubscribed():
                     #feed_id is encoded as string to allow it to be sent as JSON
                     feed_id = str( subscription.feed_id )\
                     , feed_name = feed.name\
-                    , category = subscription.category\
                     , UnreadCount = UnreadArticleCount\
                     )
         items.append(item)

@@ -6,7 +6,6 @@ class Subscription(db.EmbeddedDocument):
     TODO: need to add other fields for storing classifier
     '''
     feed_id = db.ObjectIdField()
-    category = db.StringField()
 
 class User(db.Document, UserMixin):
     '''
