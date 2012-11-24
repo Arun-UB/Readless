@@ -1,0 +1,273 @@
+------------------------------------------------------------
+/home/saasbook/Readless/venv-Readless/bin/pip run on Sat Nov 24 13:15:28 2012
+Requirement already satisfied (use --upgrade to upgrade): Flask==0.9 in ./venv-Readless/lib/python2.7/site-packages (from -r requirements.txt (line 1))
+
+Downloading/unpacking Flask-Login==0.1.3 (from -r requirements.txt (line 2))
+
+  Running setup.py egg_info for package Flask-Login
+
+    running egg_info
+    writing requirements to pip-egg-info/Flask_Login.egg-info/requires.txt
+    writing pip-egg-info/Flask_Login.egg-info/PKG-INFO
+    writing top-level names to pip-egg-info/Flask_Login.egg-info/top_level.txt
+    writing dependency_links to pip-egg-info/Flask_Login.egg-info/dependency_links.txt
+    warning: manifest_maker: standard file '-c' not found
+    
+
+    reading manifest file 'pip-egg-info/Flask_Login.egg-info/SOURCES.txt'
+    reading manifest template 'MANIFEST.in'
+    writing manifest file 'pip-egg-info/Flask_Login.egg-info/SOURCES.txt'
+  Source in ./venv-Readless/build/Flask-Login has version 0.1.3, which satisfies requirement Flask-Login==0.1.3 (from -r requirements.txt (line 2))
+Downloading/unpacking Flask-SSLify==0.1.3 (from -r requirements.txt (line 3))
+
+  Running setup.py egg_info for package Flask-SSLify
+
+    running egg_info
+    writing requirements to pip-egg-info/Flask_SSLify.egg-info/requires.txt
+    writing pip-egg-info/Flask_SSLify.egg-info/PKG-INFO
+    writing top-level names to pip-egg-info/Flask_SSLify.egg-info/top_level.txt
+    writing dependency_links to pip-egg-info/Flask_SSLify.egg-info/dependency_links.txt
+    warning: manifest_maker: standard file '-c' not found
+    
+
+    reading manifest file 'pip-egg-info/Flask_SSLify.egg-info/SOURCES.txt'
+    writing manifest file 'pip-egg-info/Flask_SSLify.egg-info/SOURCES.txt'
+  Source in ./venv-Readless/build/Flask-SSLify has version 0.1.3, which satisfies requirement Flask-SSLify==0.1.3 (from -r requirements.txt (line 3))
+Downloading/unpacking Flask-WTF==0.8 (from -r requirements.txt (line 4))
+
+  Running setup.py egg_info for package Flask-WTF
+
+    running egg_info
+    writing requirements to pip-egg-info/Flask_WTF.egg-info/requires.txt
+    writing pip-egg-info/Flask_WTF.egg-info/PKG-INFO
+    writing top-level names to pip-egg-info/Flask_WTF.egg-info/top_level.txt
+    writing dependency_links to pip-egg-info/Flask_WTF.egg-info/dependency_links.txt
+    warning: manifest_maker: standard file '-c' not found
+    
+
+    reading manifest file 'pip-egg-info/Flask_WTF.egg-info/SOURCES.txt'
+    reading manifest template 'MANIFEST.in'
+    warning: no previously-included files matching '*.pyc' found under directory 'tests'
+
+    warning: no previously-included files matching '*.pyc' found under directory 'tests'
+
+    warning: no previously-included files matching '*.pyc' found under directory 'docs'
+
+    warning: no previously-included files matching '*.pyo' found under directory 'docs'
+
+    no previously-included directories found matching 'docs/_build'
+
+    no previously-included directories found matching 'docs/_themes/.git'
+
+    writing manifest file 'pip-egg-info/Flask_WTF.egg-info/SOURCES.txt'
+  Source in ./venv-Readless/build/Flask-WTF has version 0.8, which satisfies requirement Flask-WTF==0.8 (from -r requirements.txt (line 4))
+Requirement already satisfied (use --upgrade to upgrade): Jinja2==2.6 in ./venv-Readless/lib/python2.7/site-packages (from -r requirements.txt (line 5))
+
+  skipping extra i18n
+Downloading/unpacking PyYAML==3.10 (from -r requirements.txt (line 6))
+
+  Running setup.py egg_info for package PyYAML
+
+    running egg_info
+    writing pip-egg-info/PyYAML.egg-info/PKG-INFO
+    writing top-level names to pip-egg-info/PyYAML.egg-info/top_level.txt
+    writing dependency_links to pip-egg-info/PyYAML.egg-info/dependency_links.txt
+    warning: manifest_maker: standard file '-c' not found
+    
+
+    reading manifest file 'pip-egg-info/PyYAML.egg-info/SOURCES.txt'
+    writing manifest file 'pip-egg-info/PyYAML.egg-info/SOURCES.txt'
+  Source in ./venv-Readless/build/PyYAML has version 3.10, which satisfies requirement PyYAML==3.10 (from -r requirements.txt (line 6))
+Downloading/unpacking WTForms==1.0.2 (from -r requirements.txt (line 7))
+
+  Running setup.py egg_info for package WTForms
+
+    running egg_info
+    writing pip-egg-info/WTForms.egg-info/PKG-INFO
+    writing top-level names to pip-egg-info/WTForms.egg-info/top_level.txt
+    writing dependency_links to pip-egg-info/WTForms.egg-info/dependency_links.txt
+    warning: manifest_maker: standard file '-c' not found
+    
+
+    reading manifest file 'pip-egg-info/WTForms.egg-info/SOURCES.txt'
+    reading manifest template 'MANIFEST.in'
+    warning: no previously-included files matching '*' found under directory 'docs/_build'
+
+    warning: no previously-included files matching '*.pyc' found under directory 'tests'
+
+    writing manifest file 'pip-egg-info/WTForms.egg-info/SOURCES.txt'
+  Source in ./venv-Readless/build/WTForms has version 1.0.2, which satisfies requirement WTForms==1.0.2 (from -r requirements.txt (line 7))
+Requirement already satisfied (use --upgrade to upgrade): Werkzeug==0.8.3 in ./venv-Readless/lib/python2.7/site-packages (from -r requirements.txt (line 8))
+
+Requirement already satisfied (use --upgrade to upgrade): argparse==1.2.1 in /usr/lib/python2.7 (from -r requirements.txt (line 9))
+
+Requirement already satisfied (use --upgrade to upgrade): beautifulsoup4==4.1.3 in ./venv-Readless/lib/python2.7/site-packages (from -r requirements.txt (line 10))
+
+Requirement already satisfied (use --upgrade to upgrade): distribute==0.6.24 in ./venv-Readless/lib/python2.7/site-packages/distribute-0.6.24-py2.7.egg (from -r requirements.txt (line 11))
+
+Downloading/unpacking feedparser==5.1.2 (from -r requirements.txt (line 12))
+
+  Running setup.py egg_info for package feedparser
+
+    running egg_info
+    writing pip-egg-info/feedparser.egg-info/PKG-INFO
+    writing top-level names to pip-egg-info/feedparser.egg-info/top_level.txt
+    writing dependency_links to pip-egg-info/feedparser.egg-info/dependency_links.txt
+    warning: manifest_maker: standard file '-c' not found
+    
+
+    reading manifest file 'pip-egg-info/feedparser.egg-info/SOURCES.txt'
+    reading manifest template 'MANIFEST.in'
+    writing manifest file 'pip-egg-info/feedparser.egg-info/SOURCES.txt'
+  Source in ./venv-Readless/build/feedparser has version 5.1.2, which satisfies requirement feedparser==5.1.2 (from -r requirements.txt (line 12))
+Downloading/unpacking flask-mongoengine==0.6 (from -r requirements.txt (line 13))
+
+  Running setup.py egg_info for package flask-mongoengine
+
+    no previously-included directories found matching 'test'
+
+    coverage/tracer.c:3:20: fatal error: Python.h: No such file or directory
+
+    compilation terminated.
+
+    Traceback (most recent call last):
+
+      File "<string>", line 14, in <module>
+
+      File "/home/saasbook/Readless/venv-Readless/build/flask-mongoengine/setup.py", line 52, in <module>
+
+        'Topic :: Software Development :: Libraries :: Python Modules'
+
+      File "/usr/lib/python2.7/distutils/core.py", line 112, in setup
+
+        _setup_distribution = dist = klass(attrs)
+
+      File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/distribute-0.6.24-py2.7.egg/setuptools/dist.py", line 221, in __init__
+
+        self.fetch_build_eggs(attrs.pop('setup_requires'))
+
+      File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/distribute-0.6.24-py2.7.egg/setuptools/dist.py", line 245, in fetch_build_eggs
+
+        parse_requirements(requires), installer=self.fetch_build_egg
+
+      File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/distribute-0.6.24-py2.7.egg/pkg_resources.py", line 576, in resolve
+
+        dist = best[req.key] = env.best_match(req, self, installer)
+
+      File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/distribute-0.6.24-py2.7.egg/pkg_resources.py", line 821, in best_match
+
+        return self.obtain(req, installer) # try and download/install
+
+      File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/distribute-0.6.24-py2.7.egg/pkg_resources.py", line 833, in obtain
+
+        return installer(requirement)
+
+      File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/distribute-0.6.24-py2.7.egg/setuptools/dist.py", line 294, in fetch_build_egg
+
+        return cmd.easy_install(req)
+
+      File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/distribute-0.6.24-py2.7.egg/setuptools/command/easy_install.py", line 589, in easy_install
+
+        return self.install_item(spec, dist.location, tmpdir, deps)
+
+      File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/distribute-0.6.24-py2.7.egg/setuptools/command/easy_install.py", line 619, in install_item
+
+        dists = self.install_eggs(spec, download, tmpdir)
+
+      File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/distribute-0.6.24-py2.7.egg/setuptools/command/easy_install.py", line 809, in install_eggs
+
+        return self.build_and_install(setup_script, setup_base)
+
+      File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/distribute-0.6.24-py2.7.egg/setuptools/command/easy_install.py", line 1086, in build_and_install
+
+        self.run_setup(setup_script, setup_base, args)
+
+      File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/distribute-0.6.24-py2.7.egg/setuptools/command/easy_install.py", line 1077, in run_setup
+
+        raise DistutilsError("Setup script exited with %s" % (v.args[0],))
+
+    distutils.errors.DistutilsError: Setup script exited with error: command 'gcc' failed with exit status 1
+
+    Complete output from command python setup.py egg_info:
+
+    no previously-included directories found matching 'test'
+
+coverage/tracer.c:3:20: fatal error: Python.h: No such file or directory
+
+compilation terminated.
+
+Traceback (most recent call last):
+
+  File "<string>", line 14, in <module>
+
+  File "/home/saasbook/Readless/venv-Readless/build/flask-mongoengine/setup.py", line 52, in <module>
+
+    'Topic :: Software Development :: Libraries :: Python Modules'
+
+  File "/usr/lib/python2.7/distutils/core.py", line 112, in setup
+
+    _setup_distribution = dist = klass(attrs)
+
+  File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/distribute-0.6.24-py2.7.egg/setuptools/dist.py", line 221, in __init__
+
+    self.fetch_build_eggs(attrs.pop('setup_requires'))
+
+  File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/distribute-0.6.24-py2.7.egg/setuptools/dist.py", line 245, in fetch_build_eggs
+
+    parse_requirements(requires), installer=self.fetch_build_egg
+
+  File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/distribute-0.6.24-py2.7.egg/pkg_resources.py", line 576, in resolve
+
+    dist = best[req.key] = env.best_match(req, self, installer)
+
+  File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/distribute-0.6.24-py2.7.egg/pkg_resources.py", line 821, in best_match
+
+    return self.obtain(req, installer) # try and download/install
+
+  File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/distribute-0.6.24-py2.7.egg/pkg_resources.py", line 833, in obtain
+
+    return installer(requirement)
+
+  File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/distribute-0.6.24-py2.7.egg/setuptools/dist.py", line 294, in fetch_build_egg
+
+    return cmd.easy_install(req)
+
+  File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/distribute-0.6.24-py2.7.egg/setuptools/command/easy_install.py", line 589, in easy_install
+
+    return self.install_item(spec, dist.location, tmpdir, deps)
+
+  File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/distribute-0.6.24-py2.7.egg/setuptools/command/easy_install.py", line 619, in install_item
+
+    dists = self.install_eggs(spec, download, tmpdir)
+
+  File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/distribute-0.6.24-py2.7.egg/setuptools/command/easy_install.py", line 809, in install_eggs
+
+    return self.build_and_install(setup_script, setup_base)
+
+  File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/distribute-0.6.24-py2.7.egg/setuptools/command/easy_install.py", line 1086, in build_and_install
+
+    self.run_setup(setup_script, setup_base, args)
+
+  File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/distribute-0.6.24-py2.7.egg/setuptools/command/easy_install.py", line 1077, in run_setup
+
+    raise DistutilsError("Setup script exited with %s" % (v.args[0],))
+
+distutils.errors.DistutilsError: Setup script exited with error: command 'gcc' failed with exit status 1
+
+----------------------------------------
+
+Command python setup.py egg_info failed with error code 1 in /home/saasbook/Readless/venv-Readless/build/flask-mongoengine
+
+Exception information:
+Traceback (most recent call last):
+  File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/pip-1.1-py2.7.egg/pip/basecommand.py", line 104, in main
+    status = self.run(options, args)
+  File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/pip-1.1-py2.7.egg/pip/commands/install.py", line 245, in run
+    requirement_set.prepare_files(finder, force_root_egg_info=self.bundle, bundle=self.bundle)
+  File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/pip-1.1-py2.7.egg/pip/req.py", line 1009, in prepare_files
+    req_to_install.run_egg_info()
+  File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/pip-1.1-py2.7.egg/pip/req.py", line 225, in run_egg_info
+    command_desc='python setup.py egg_info')
+  File "/home/saasbook/Readless/venv-Readless/local/lib/python2.7/site-packages/pip-1.1-py2.7.egg/pip/__init__.py", line 256, in call_subprocess
+    % (command_desc, proc.returncode, cwd))
+InstallationError: Command python setup.py egg_info failed with error code 1 in /home/saasbook/Readless/venv-Readless/build/flask-mongoengine
