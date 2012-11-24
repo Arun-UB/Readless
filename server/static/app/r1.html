@@ -20,9 +20,10 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
-        <!--  <link rel="stylesheet" href="css/bootstrap.css">
-          <link rel="stylesheet" href="css/bootstrap-responsive.css">-->
+       
+          <!--<link rel="stylesheet" href="css/bootstrap-responsive.css">-->
         <link rel="stylesheet" href="css/readless.css">
+
         <!--  <link rel="stylesheet" href="css/readless-responsive.min.css">-->
         <link rel="stylesheet" href="css/custom.css">
 
@@ -74,10 +75,27 @@
             <div class="row">
                 <div id="sidebar" class="span3">
                     <div id="subscribe">
-                        <a class="btn btn-primary" href="#"><i class="icon-plus-sign icon-white"></i>  Subscribe</a>
+                        <a class="btn btn-info" data-toggle="modal" data-target="#subscribeModal"  href="#"><i class="icon-plus-sign icon-white"></i> <strong> Subscribe</strong></a>
                     </div>
-                    
-                    <div class="subscriptions">
+                        <div ng-controller="SubscribeCtrl" id="subscribeModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h3 id="myModalLabel">Subscribe</h3>
+                              </div>
+                              <div class="modal-body form-inline">
+                                <input type="text" placeholder="Feed URL or keyword" ng-model="SubscribeKwd" ng-model-instant>
+                                  <button class="btn btn-success" ng-click="find()">Add</button>
+                                  <div>
+                                    {{fUrl}}
+                                  </div>
+                              </div>
+
+                              <div class="modal-footer">
+                            
+                              
+                              </div>
+                        </div>
+                    <div class="subscriptions" >
                         <i class="icon-list"></i>
                         <strong>Subscriptions</strong>
                         <div id="sub-list">
