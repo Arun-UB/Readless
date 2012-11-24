@@ -110,9 +110,9 @@ def Unsubscribe(rss_id):
     except DoesNotExist:
         return jsonify(dict(status = 'Error', message = 'Given feed does not exist'))
 
-@app.route('/getSubscribed')
+@app.route('/getUserInfo')
 @login_required
-def GetSubscribed():
+def GetUserInfo():
     '''Logic to get all feeds that a user has been subscribed to'''
     items = []
     for subscription in current_user.subscriptions:
@@ -125,4 +125,8 @@ def GetSubscribed():
                     , UnreadCount = UnreadArticleCount\
                     )
         items.append(item)
-    return jsonify(dict(subscriptions = items))
+    return jsonify(dict(\
+            name = current_user.name\
+            , email = current_user.email\
+            , subscriptions = items\
+            ))
