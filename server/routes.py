@@ -96,7 +96,7 @@ def Subscribe(rss_url):
     User.objects(id = current_user.id).update_one(add_to_set__subscriptions = new_subscription)
     return jsonify(dict(status = 'Success'))
 
-@app.route('/unsubscribe/<path:rss_id>')
+@app.route('/unsubscribe/<rss_id>')
 @login_required
 def Unsubscribe(rss_id):
     '''Logic to unsubscribe a user from an rss feed, and all articles from that feed'''
