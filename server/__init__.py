@@ -34,7 +34,7 @@ handler.setLevel(logging.INFO)
 app.logger.addHandler(handler)
 
 #load models
-from models import User, Article, Feed
+from models import User, Article, Feed, Reader 
 
 #setting up user_loader callback, for Flask login
 @login_manager.user_loader

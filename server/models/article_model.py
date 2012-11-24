@@ -16,7 +16,7 @@ class Reader(db.EmbeddedDocument):
 
 class Article(db.Document):
     '''A document that represents an article extracted from a feed'''
-    source_url = db.URLField(verify_exists = True)
+    source_url = db.URLField(verify_exists = True, unique = True)
     feed_id = db.ObjectIdField()
     features = db.EmbeddedDocumentField('Features')
     readers = db.ListField(db.EmbeddedDocumentField('Reader'))
