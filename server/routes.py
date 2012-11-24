@@ -10,8 +10,8 @@ def test_config():
     '''just a test, to be removed later'''
     return Response(app.config['MONGODB_DB'], mimetype='text/plain')
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
+@app.route('/signin', methods=['GET', 'POST'])
+def signin():
     """all logic to check whether a user exists and log him in"""
     error = None
     if request.method == 'POST':
@@ -26,13 +26,13 @@ def login():
             error = 'User with this email id does not exist'
     return render_template('login.html', error=error)
 
-@app.route("/logout")
+@app.route("/signout")
 @login_required
-def logout():
+def signout():
     '''all logic to correctly logout a user'''
     logout_user()
     flash('logged out')
-    return redirect(url_for('login'))
+    return redirect(url_for('signin'))
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -47,7 +47,7 @@ def signup():
         try:
             new_user.save(safe = True, force_insert=True)#waits for result and forces inserts
             flash('successfully signed up')
-            return redirect(url_for('login'))
+            return redirect(url_for('signin'))
         except db.NotUniqueError:
             error = 'User with this email id already exists'
         except ValidationError as e:
