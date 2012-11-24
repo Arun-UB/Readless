@@ -10,8 +10,8 @@ def test_config():
     '''just a test, to be removed later'''
     return Response(app.config['MONGODB_DB'], mimetype='text/plain')
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
+@app.route('/signin', methods=['GET', 'POST'])
+def signin():
     """all logic to check whether a user exists and log him in"""
     error = None
     if request.method == 'POST':
@@ -26,13 +26,13 @@ def login():
             error = 'User with this email id does not exist'
     return render_template('login.html', error=error)
 
-@app.route("/logout")
+@app.route("/signout")
 @login_required
-def logout():
+def signout():
     '''all logic to correctly logout a user'''
     logout_user()
     flash('logged out')
-    return redirect(url_for('login'))
+    return redirect(url_for('signin'))
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -47,7 +47,7 @@ def signup():
         try:
             new_user.save(safe = True, force_insert=True)#waits for result and forces inserts
             flash('successfully signed up')
-            return redirect(url_for('login'))
+            return redirect(url_for('signin'))
         except db.NotUniqueError:
             error = 'User with this email id already exists'
         except ValidationError as e:
@@ -70,7 +70,7 @@ def MarkRead(article_id):
     '''Logic to atomically mark an article as being read by the logged in user'''
     #TODO: test it
     #atomically remove current user from readers of given article
-    Article.objects.filter(id = article_id).update_one(pull__readers__id = current_user.id)
+    Article.objects(id = article_id).update_one(pull__readers__id = current_user.id)
     return jsonify(dict(status = 'Success'))
 
 @app.route('/markUnread/<article_id>')
@@ -80,20 +80,20 @@ def MarkUnread(article_id):
     #TODO: test it
     new_reader = Reader(user = current_user)
     #atomically add current user to readers of given article
-    Article.objects.filter(id = article_id).update_one(add_to_set__readers = new_reader)
+    Article.objects(id = article_id).update_one(add_to_set__readers = new_reader)
     return jsonify(dict(status = 'Success'))
 
-@app.route('/subscribe/<path:rss_url>/<category>')
+@app.route('/subscribe/<path:rss_url>')
 @login_required
-def Subscribe(rss_url, category):
+def Subscribe(rss_url):
     '''Logic to add a given rss feed to the db, if required, and subscribe the current user to this feed'''
     try:
         feed = Feed.get_or_construct(rss_url)
     except NotAFeed:
         return jsonify(dict(status = 'Error', message='The given url is not an rss feed url'))
-    new_subscription = Subscription(feed_id = feed.id, category = category)
+    new_subscription = Subscription(feed_id = feed.id)
     #atomically add new feed subscription to current user
-    User.objects.filter(id = current_user.id).update_one(add_to_set__subscriptions = new_subscription)
+    User.objects(id = current_user.id).update_one(add_to_set__subscriptions = new_subscription)
     return jsonify(dict(status = 'Success'))
 
 @app.route('/unsubscribe/<path:rss_id>')
@@ -103,17 +103,17 @@ def Unsubscribe(rss_id):
     try:
         feed_to_be_removed = Feed.objects.get(id = rss_id)
         #atomically remove feed subscription from current user
-        User.objects.filter(id = current_user.id).update_one(pull__subscriptions__feed_id = feed_to_be_removed.id)
+        User.objects(id = current_user.id).update_one(pull__subscriptions__feed_id = feed_to_be_removed.id)
         #atomically remove articles from unsubscribed feed for current user
-        Article. objects.filter(feed_id = feed_to_be_removed.id).update(pull__readers__user_id = current_user.id)
+        Article. objects(feed_id = feed_to_be_removed.id).update(pull__readers__user_id = current_user.id)
         return jsonify(dict(status = 'Success'))
     except DoesNotExist:
         return jsonify(dict(status = 'Error', message = 'Given feed does not exist'))
 
-@app.route('/getSubscribed')
+@app.route('/getUserInfo')
 @login_required
-def GetSubscribed():
-    '''Logic to get all feeds that a user has been subscribed to'''
+def GetUserInfo():
+    '''Logic to get all required information about a user '''
     items = []
     for subscription in current_user.subscriptions:
         feed = Feed.objects.get(id = subscription.feed_id)
@@ -122,8 +122,11 @@ def GetSubscribed():
                     #feed_id is encoded as string to allow it to be sent as JSON
                     feed_id = str( subscription.feed_id )\
                     , feed_name = feed.name\
-                    , category = subscription.category\
                     , UnreadCount = UnreadArticleCount\
                     )
         items.append(item)
-    return jsonify(dict(subscriptions = items))
+    return jsonify(dict(\
+            name = current_user.name\
+            , email = current_user.email\
+            , subscriptions = items\
+            ))
