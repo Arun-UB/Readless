@@ -70,7 +70,7 @@ def MarkRead(article_id):
     '''Logic to atomically mark an article as being read by the logged in user'''
     #TODO: test it
     #atomically remove current user from readers of given article
-    Article.objects.filter(id = article_id).update_one(pull__readers__id = current_user.id)
+    Article.objects(id = article_id).update_one(pull__readers__id = current_user.id)
     return jsonify(dict(status = 'Success'))
 
 @app.route('/markUnread/<article_id>')
@@ -80,7 +80,7 @@ def MarkUnread(article_id):
     #TODO: test it
     new_reader = Reader(user = current_user)
     #atomically add current user to readers of given article
-    Article.objects.filter(id = article_id).update_one(add_to_set__readers = new_reader)
+    Article.objects(id = article_id).update_one(add_to_set__readers = new_reader)
     return jsonify(dict(status = 'Success'))
 
 @app.route('/subscribe/<path:rss_url>')
@@ -93,7 +93,7 @@ def Subscribe(rss_url):
         return jsonify(dict(status = 'Error', message='The given url is not an rss feed url'))
     new_subscription = Subscription(feed_id = feed.id)
     #atomically add new feed subscription to current user
-    User.objects.filter(id = current_user.id).update_one(add_to_set__subscriptions = new_subscription)
+    User.objects(id = current_user.id).update_one(add_to_set__subscriptions = new_subscription)
     return jsonify(dict(status = 'Success'))
 
 @app.route('/unsubscribe/<path:rss_id>')
@@ -103,9 +103,9 @@ def Unsubscribe(rss_id):
     try:
         feed_to_be_removed = Feed.objects.get(id = rss_id)
         #atomically remove feed subscription from current user
-        User.objects.filter(id = current_user.id).update_one(pull__subscriptions__feed_id = feed_to_be_removed.id)
+        User.objects(id = current_user.id).update_one(pull__subscriptions__feed_id = feed_to_be_removed.id)
         #atomically remove articles from unsubscribed feed for current user
-        Article. objects.filter(feed_id = feed_to_be_removed.id).update(pull__readers__user_id = current_user.id)
+        Article. objects(feed_id = feed_to_be_removed.id).update(pull__readers__user_id = current_user.id)
         return jsonify(dict(status = 'Success'))
     except DoesNotExist:
         return jsonify(dict(status = 'Error', message = 'Given feed does not exist'))
@@ -113,7 +113,7 @@ def Unsubscribe(rss_id):
 @app.route('/getUserInfo')
 @login_required
 def GetUserInfo():
-    '''Logic to get all feeds that a user has been subscribed to'''
+    '''Logic to get all required information about a user '''
     items = []
     for subscription in current_user.subscriptions:
         feed = Feed.objects.get(id = subscription.feed_id)
