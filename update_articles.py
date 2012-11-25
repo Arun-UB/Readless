@@ -1,8 +1,8 @@
 import feedparser
-from server import Article, Feed, Reader, User, db
+from server import Article, Feed, Reader, User, Features, db
 from dateutil.parser import parse
 
-def get_readers_for(entry, feed_subscribers):
+def get_readers_for(article_features, feed_subscribers):
     '''
     creates a list of reader objects for an article 
     from a list of feed subscribers
@@ -26,11 +26,16 @@ def save_new_articles_from_feed(feed):
     feed_subscribers = User.objects(subscriptions__feed_id = feed.id)
     for entry in parsed_feed.entries:
         #create new article object for this entry and save it
+        article_features = Features(\
+                title = entry.title\
+                , content_snippet = entry.description\
+                )
         new_article = Article(\
                 source_url = entry.link\
+                , features = article_features\
                 , feed_id = feed.id\
                 , time_stamp = parse(entry.published)\
-                , readers = get_readers_for(entry, feed_subscribers)\
+                , readers = get_readers_for(article_features, feed_subscribers)\
                 )
         try:
             new_article.save()
