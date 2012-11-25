@@ -71,9 +71,12 @@ def ChangePassword():
             error = 'New password and confirm password do not match'
         else:
             current_user.password_hash = generate_password_hash(request.form['New_Password'])
-            current_user.save()
-            flash('Your password has been changed')
-            return redirect(url_for('index'))
+            try:
+                current_user.save(safe = True)
+                flash('Your password has been changed')
+                return redirect(url_for('index'))
+            except db.OperationError:
+                error = 'Failed to save new password, try again later'
     return render_template('changePassword.html', error = error)
 
 @app.route('/index')
