@@ -1,10 +1,20 @@
 <!doctype html>
 <title>Flaskr</title>
-<div class=page>
-  <h1>Flaskr</h1>
+
+
+
+<link rel="stylesheet" type="text/css" href="{[ url_for('static', filename='css/readless.css')]}">
+<style type="text/css">
+#main{
+  margin-top: 60px;
+}
+</style>
+ 
+<div class="container" id="main">
+ 
   <div class=metanav>
   {% if not session.logged_in %}
-    <a href="{[ url_for('signin') ]}">log in</a>
+   <!-- <a href="{[ url_for('signin') ]}">log in</a>-->
   {% else %}
     <a href="{[ url_for('signout') ]}">log out</a>
   {% endif %}
