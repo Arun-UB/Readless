@@ -79,7 +79,12 @@ def ChangePassword():
                 error = 'Failed to save new password, try again later'
     return render_template('changePassword.html', error = error)
 
+@app.route('/')
+def redirect_to_index():
+    return redirect(url_for('index'))
+
 @app.route('/index')
+@login_required
 def index():
     '''a simple index page'''
     return render_template('index.html')
