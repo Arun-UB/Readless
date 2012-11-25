@@ -60,6 +60,22 @@ def signup():
                 app.logger.error('An unknown validation error occured while trying to sign up a user')
     return render_template('signup.html', error=error)
 
+@app.route('/changePassword', methods=['GET', 'POST'])
+@login_required
+def ChangePassword():
+    error = None
+    if request.method == 'POST':
+        if check_password_hash(current_user.password_hash, request.form['Old_Password']) is False:
+            error = 'incorrect original password'
+        elif(request.form['New_Password'] != request.form['Confirm_Password']):
+            error = 'New password and confirm password do not match'
+        else:
+            current_user.password_hash = generate_password_hash(request.form['New_Password'])
+            current_user.save()
+            flash('Your password has been changed')
+            return redirect(url_for('index'))
+    return render_template('changePassword.html', error = error)
+
 @app.route('/index')
 def index():
     '''a simple index page'''
