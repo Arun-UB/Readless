@@ -4,6 +4,7 @@ from flask import Response, request, render_template, redirect, url_for, flash, 
 from flask.ext.login import login_required, logout_user, login_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import User, Article, Reader, Feed, Subscription, NotAFeed
+import time
 
 @app.route('/show_db_name')
 def test_config():
@@ -58,6 +59,25 @@ def signup():
             else:
                 app.logger.error('An unknown validation error occured while trying to sign up a user')
     return render_template('signup.html', error=error)
+
+@app.route('/changePassword', methods=['GET', 'POST'])
+@login_required
+def ChangePassword():
+    error = None
+    if request.method == 'POST':
+        if check_password_hash(current_user.password_hash, request.form['Old_Password']) is False:
+            error = 'incorrect original password'
+        elif(request.form['New_Password'] != request.form['Confirm_Password']):
+            error = 'New password and confirm password do not match'
+        else:
+            current_user.password_hash = generate_password_hash(request.form['New_Password'])
+            try:
+                current_user.save(safe = True)
+                flash('Your password has been changed')
+                return redirect(url_for('index'))
+            except db.OperationError:
+                error = 'Failed to save new password, try again later'
+    return render_template('changePassword.html', error = error)
 
 @app.route('/index')
 def index():
@@ -129,4 +149,20 @@ def GetUserInfo():
             name = current_user.name\
             , email = current_user.email\
             , subscriptions = items\
+            ))
+
+@app.route('/getUnreadArticles/<feedId>')
+@login_required
+def GetUnreadArticles(feedId):
+    items = []
+    for article in Article.objects(feed_id = feedId, readers__user_id = current_user.id):
+        item = dict(\
+                title = article.features.title\
+                , content_snippet = article.features.content_snippet\
+                , source_link = article.source_url\
+                , time_stamp = time.mktime(article.time_stamp.timetuple())\
+                )
+        items.append(item)
+    return jsonify(dict(\
+            articles = items\
             ))
