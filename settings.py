@@ -2,8 +2,8 @@
 import os
 class Config(object):
     SECRET_KEY = os.environ['SECRET_KEY']
-    MONGODB_USERNAME = os.environ['MONGO_DB_USERNAME']
-    MONGODB_PASSWORD = os.environ['MONGO_DB_PASSWORD']
+    MONGODB_USERNAME = os.environ.get('MONGO_DB_USERNAME')#only set if exists, else None
+    MONGODB_PASSWORD = os.environ.get('MONGO_DB_PASSWORD')#only set if exists, else None
 
 class TestConfig(Config):
     DEBUG = True
