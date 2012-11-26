@@ -106,7 +106,7 @@ def MarkRead(article_id):
 def MarkUnread(article_id):
     '''Logic to atomically mark an article as being unread by the logged in user'''
     #TODO: test it
-    new_reader = Reader(user = current_user)
+    new_reader = Reader(user_id = current_user.id)
     #atomically add current user to readers of given article
     Article.objects(id = article_id).update_one(add_to_set__readers = new_reader)
     return jsonify(dict(status = 'Success'))
