@@ -39,7 +39,7 @@
              chromium.org/developers/how-tos/chrome-frame-getting-started -->
         <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 
-        <header>
+        <header ng-controller="UserCtrl">
 
 
             <div class="navbar navbar-fixed-top ">
@@ -56,11 +56,11 @@
                         <ul class="nav pull-right">
 
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">User <b class="caret"></b></a>
+                                <a href="#" ng-model="uName" ng-cloak class="dropdown-toggle" data-toggle="dropdown">{{uName}}<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="#">Settings</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="#">Sign out</a></li>
+                                    <li><a href="/signout">Sign out</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -83,10 +83,10 @@
                                 <h3 id="myModalLabel">Subscribe</h3>
                               </div>
                               <div class="modal-body form-inline">
-                                <input type="text" placeholder="Feed URL or keyword" ng-model="SubscribeKwd" ng-model-instant>
+                                <input type="text" autofocus placeholder="Feed URL or keyword" ng-model="SubscribeKwd">
                                   <button class="btn btn-success" ng-click="add()">Add</button>
                                   <div>
-                                    {{fUrl}}
+                                    
                                   </div>
                               </div>
 
@@ -95,15 +95,15 @@
                               
                               </div>
                         </div>
-                    <div class="subscriptions" >
+                    <div class="subscriptions" ng-controller="UserCtrl">
                         <i class="icon-list"></i>
                         <strong>Subscriptions</strong>
                         <div id="sub-list">
                             <ul class="unstyled">
-                                <li class="src"><span class="fav"><img src="https://www.google.com/s2/favicons?domain=www.theverge.com&alt=feed"/></span>The Verge<span class="badge ">2</li>
-                                <li class="src active"><span class="fav"><img src="https://www.google.com/s2/favicons?domain=www.engadget.com&alt=feed"/></span>Engadget <span class="badge badge-info">4</span>
+                                <li  ng-repeat="feed in feeds" class="src"><span class="fav"><img src="https://www.google.com/s2/favicons?domain=www.theverge.com&alt=feed"/></span>{{feed.feed_name}}<span class="badge ">{{feed.UnreadCount}}
 
                                 </li>
+                                
 
 
                             </ul>
