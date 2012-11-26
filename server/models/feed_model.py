@@ -8,7 +8,7 @@ class Feed(db.Document):
     name = db.StringField(required = True)
     site_url = db.URLField(verify_exists = True)
     rss_url = db.URLField(verify_exists = True, unique = True, required = True)
-    last_update = db.DateTimeField(default = datetime.datetime.now)#required?
+    last_update = db.DateTimeField(default = datetime.datetime.now)
     last_new_article = db.ReferenceField('Article', dbref = True)#lazily dereferenced on access
 
     def save(self, *args, **kwargs):
