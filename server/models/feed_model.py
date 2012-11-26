@@ -32,8 +32,10 @@ class Feed(db.Document):
             if rss_dict.version is '':
                 raise NotAFeed('the given url was not a recognized feed format')
             new_feed = Feed(\
-                            name = rss_dict.feed.title\
-                            , site_url = rss_dict.feed.link\
+                            #get title from rss feed(or atom feed)
+                            name = rss_dict.feed.get('title', rss_dict['channel']['title'])\
+                            #get site url from rss feed(or atom feed)
+                            , site_url = rss_dict.feed.get('link', rss_dict['channel']['link'])\
                             , rss_url = rssUrl\
                             )
             new_feed.save()
