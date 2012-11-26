@@ -1,7 +1,21 @@
 'use strict';
 
 /* Controllers */
-
+function UserCtrl ($scope,$http) {
+	
+	
+	$scope.getUserInfo=function(){
+	 	$scope.url='http://localhost:5000/getUserInfo';
+	 	$http.get($scope.url).success(function(data,status){
+	 		console.log(data);
+	 		$scope.uName=data.name.trim();
+	 		$scope.feeds=data.subscriptions;
+	 		//console.log($scope.feeds)
+	 	}
+	 	);
+	 }
+	 $scope.getUserInfo();
+}
 function SubscribeCtrl($scope,$http){
 	//console.log($scope.SubscribeKwd);
 	
@@ -14,13 +28,20 @@ function SubscribeCtrl($scope,$http){
 	//	$scope.fUrl= parse
 
 }*/
-	function handleSubAdded(data,status){
+	/*function handleSubAdded(data,status){
 		console.log(data)
-	}
+	}*/
 
 	 $scope.add=function(){
-	 	$scope.url='http://localhost:5000/subscribe'+ encodeURIComponent($scope.SubscribeKwd);
-	 	$http.get($scope.url).success($scope.handleSubAdded);}
+	 	$scope.url='http://localhost:5000/subscribe/'+ encodeURIComponent($scope.SubscribeKwd);
+	 	console.log($scope.url)
+	 	$http.get($scope.url).success(function(data,status){
+	 		console.log(data);
+	 		$('#myModal').modal('hide')
+	 	}
+
+	 		);
+	 }
 
 
 		
