@@ -147,6 +147,7 @@ def GetUserInfo():
                     #feed_id is encoded as string to allow it to be sent as JSON
                     feed_id = str( subscription.feed_id )\
                     , feed_name = feed.name\
+                    , site_url = feed.site_url\
                     , UnreadCount = UnreadArticleCount\
                     )
         items.append(item)
