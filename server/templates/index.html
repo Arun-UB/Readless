@@ -33,6 +33,7 @@
              Modernizr enables HTML5 elements & feature detects for optimal performance.
              Create your own custom Modernizr build: www.modernizr.com/download/ -->
              <script src="{[ url_for('static', filename='js/libs/modernizr-2.5.3.min.js')]}"></script>
+            
     </head>
     <body>
         <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
@@ -70,8 +71,12 @@
 
 
         </header>
-
+<div class="container alert fade in" >
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>Holy guacamole!</strong> Best check yo self, you're not looking too good.
+          </div>
         <div id="content" class="container">
+
             <div class="row">
                 <div id="sidebar" class="span3">
                     <div id="subscribe">

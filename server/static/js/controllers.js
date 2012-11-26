@@ -9,6 +9,18 @@ function UserCtrl ($scope,$http) {
 	 	$http.get($scope.url).success(function(data,status){
 	 		console.log(data);
 	 		$scope.uName=data.name.trim();
+	 		limit(data.subscriptions)
+
+	 	function limit (subs) {
+	 		/*var i;
+	 		for(i=0;i<subs.length;i++)
+	 		console.log(subs[i].feed_name)*/
+	 		angular.forEach(subs,function(sub){
+	 			if(sub.feed_name.length >= 18)
+	 			sub.feed_name=sub.feed_name.substring(0,18)+'...';
+
+	 		})
+	 	}
 	 		$scope.feeds=data.subscriptions;
 	 		//console.log($scope.feeds)
 	 	}
@@ -35,9 +47,13 @@ function SubscribeCtrl($scope,$http){
 	 $scope.add=function(){
 	 	$scope.url='http://localhost:5000/subscribe/'+ encodeURIComponent($scope.SubscribeKwd);
 	 	console.log($scope.url)
+	 	$(".close").click();
 	 	$http.get($scope.url).success(function(data,status){
-	 		console.log(data);
-	 		$('#myModal').modal('hide')
+	 		console.log(data.status);
+	 		if(data.status=="Success"){
+	 			
+	 			UserCtrl();
+	 		}
 	 	}
 
 	 		);
