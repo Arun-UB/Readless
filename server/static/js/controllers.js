@@ -5,7 +5,7 @@ function UserCtrl ($scope,$http) {
 	
 	
 	$scope.getUserInfo=function(){
-	 	$scope.url='http://localhost:5000/getUserInfo';
+	 	$scope.url='/getUserInfo';
 	 	$http.get($scope.url).success(function(data,status){
 	 		console.log(data);
 	 		$scope.uName=data.name.trim();
@@ -45,7 +45,7 @@ function SubscribeCtrl($scope,$http){
 	}*/
 
 	 $scope.add=function(){
-	 	$scope.url='http://localhost:5000/subscribe/'+ encodeURIComponent($scope.SubscribeKwd);
+	 	$scope.url='subscribe/'+ encodeURIComponent($scope.SubscribeKwd);
 	 	console.log($scope.url)
 	 	$(".close").click();
 	 	$http.get($scope.url).success(function(data,status){
