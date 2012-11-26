@@ -14,13 +14,13 @@ box-shadow: 0 0 5px #888;
 
 #sidebar{
    
-    width: 235px;
+    width: 233px;
     height: 540px;
-/*    border-right: solid gray thin;*/
-background-color: #cccccc;
--moz-box-shadow: inset -4px 0px 10px #888;
+  border-right: dashed lightgray 1px;
+background-color: white;
+/*-moz-box-shadow: inset -4px 0px 10px #888;
 -webkit-box-shadow: inset -4px -5px 10px #888;
-box-shadow: inset -4px 0px 10px #888;
+box-shadow: inset -4px 0px 10px #888;*/
         
 }
 #navSearch{ 
@@ -76,14 +76,16 @@ color: gray
 		cursor: pointer;
 		text-decoration: none;
         padding-bottom: 5px;
-        font-weight: bold;
+        font-size:13px;
+        color: #6D6F72;
 }
 .badge{
 	float: right;
 }
 
 #sub-list{
-padding: 15px
+padding: 10px 15px 15px 15px;
+
 
 }
 

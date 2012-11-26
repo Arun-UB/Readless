@@ -1,16 +1,38 @@
 {% extends "layout.html" %}
 {% block body %}
-  <h2>Signup</h2>
+<link rel="stylesheet" type="text/css" href="{[ url_for('static', filename='../static/app/css/signin.css')]}">
+   <header>
+
+
+            <div class="navbar navbar-fixed-top ">
+
+                <div class="navbar-inner">
+                    <div class="container">
+                        <a class="brand" data-toggle="modal" href="#modalAbout">
+                            Readless
+                        </a>
+
+                        
+                        <div class="nav pull-right">
+                          <a class="btn btn-info" href="/signin">Sign in</a>
+                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+
   {% if error %}<p class=error><strong>Error:</strong> {[ error ]}{% endif %}
-  <form action="{[ url_for('signup') ]}" method="post">
-    <dl>
-      <dt>Email:
-      <dd><input type="text" name="email">
-      <dt>Name:
-      <dd><input type="text" name="name">
-      <dt>Password:
-      <dd><input type="password" name="password">
-      <dd><input type="submit" value="Login">
-    </dl>
-  </form>
+  
+   <div class="container">
+
+        <form action="{[ url_for('signup') ]}" class="form-signin" method="post">
+        <h3 class="form-signin-heading">Sign up</h3>
+      
+        <input type="text" class="input-block-level" autofocus required placeholder="Email address" name="email">
+        <input type="text" class="input-block-level" required placeholder="Name" name="name">
+        <input type="password" name="password" class="input-block-level" required placeholder="Password">
+      
+        <input class="btn btn-large btn-success" type="submit" value="Sign up">
+      </form>
+</div>
 {% endblock %}

@@ -4,14 +4,15 @@ from flask import Response, request, render_template, redirect, url_for, flash, 
 from flask.ext.login import login_required, logout_user, login_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import User, Article, Reader, Feed, Subscription, NotAFeed
+import time
 
 @app.route('/show_db_name')
 def test_config():
     '''just a test, to be removed later'''
     return Response(app.config['MONGODB_DB'], mimetype='text/plain')
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
+@app.route('/signin', methods=['GET', 'POST'])
+def signin():
     """all logic to check whether a user exists and log him in"""
     error = None
     if request.method == 'POST':
@@ -26,13 +27,13 @@ def login():
             error = 'User with this email id does not exist'
     return render_template('login.html', error=error)
 
-@app.route("/logout")
+@app.route("/signout")
 @login_required
-def logout():
+def signout():
     '''all logic to correctly logout a user'''
     logout_user()
     flash('logged out')
-    return redirect(url_for('login'))
+    return redirect(url_for('signin'))
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -47,7 +48,7 @@ def signup():
         try:
             new_user.save(safe = True, force_insert=True)#waits for result and forces inserts
             flash('successfully signed up')
-            return redirect(url_for('login'))
+            return redirect(url_for('signin'))
         except db.NotUniqueError:
             error = 'User with this email id already exists'
         except ValidationError as e:
@@ -59,7 +60,31 @@ def signup():
                 app.logger.error('An unknown validation error occured while trying to sign up a user')
     return render_template('signup.html', error=error)
 
+@app.route('/changePassword', methods=['GET', 'POST'])
+@login_required
+def ChangePassword():
+    error = None
+    if request.method == 'POST':
+        if check_password_hash(current_user.password_hash, request.form['Old_Password']) is False:
+            error = 'incorrect original password'
+        elif(request.form['New_Password'] != request.form['Confirm_Password']):
+            error = 'New password and confirm password do not match'
+        else:
+            current_user.password_hash = generate_password_hash(request.form['New_Password'])
+            try:
+                current_user.save(safe = True)
+                flash('Your password has been changed')
+                return redirect(url_for('index'))
+            except db.OperationError:
+                error = 'Failed to save new password, try again later'
+    return render_template('changePassword.html', error = error)
+
+@app.route('/')
+def redirect_to_index():
+    return redirect(url_for('index'))
+
 @app.route('/index')
+@login_required
 def index():
     '''a simple index page'''
     return render_template('index.html')
@@ -70,7 +95,7 @@ def MarkRead(article_id):
     '''Logic to atomically mark an article as being read by the logged in user'''
     #TODO: test it
     #atomically remove current user from readers of given article
-    Article.objects.filter(id = article_id).update_one(pull__readers__id = current_user.id)
+    Article.objects(id = article_id).update_one(pull__readers__id = current_user.id)
     return jsonify(dict(status = 'Success'))
 
 @app.route('/markUnread/<article_id>')
@@ -80,40 +105,40 @@ def MarkUnread(article_id):
     #TODO: test it
     new_reader = Reader(user = current_user)
     #atomically add current user to readers of given article
-    Article.objects.filter(id = article_id).update_one(add_to_set__readers = new_reader)
+    Article.objects(id = article_id).update_one(add_to_set__readers = new_reader)
     return jsonify(dict(status = 'Success'))
 
-@app.route('/subscribe/<path:rss_url>/<category>')
+@app.route('/subscribe/<path:rss_url>')
 @login_required
-def Subscribe(rss_url, category):
+def Subscribe(rss_url):
     '''Logic to add a given rss feed to the db, if required, and subscribe the current user to this feed'''
     try:
         feed = Feed.get_or_construct(rss_url)
     except NotAFeed:
         return jsonify(dict(status = 'Error', message='The given url is not an rss feed url'))
-    new_subscription = Subscription(feed_id = feed.id, category = category)
+    new_subscription = Subscription(feed_id = feed.id)
     #atomically add new feed subscription to current user
-    User.objects.filter(id = current_user.id).update_one(add_to_set__subscriptions = new_subscription)
+    User.objects(id = current_user.id).update_one(add_to_set__subscriptions = new_subscription)
     return jsonify(dict(status = 'Success'))
 
-@app.route('/unsubscribe/<path:rss_id>')
+@app.route('/unsubscribe/<rss_id>')
 @login_required
 def Unsubscribe(rss_id):
     '''Logic to unsubscribe a user from an rss feed, and all articles from that feed'''
     try:
         feed_to_be_removed = Feed.objects.get(id = rss_id)
         #atomically remove feed subscription from current user
-        User.objects.filter(id = current_user.id).update_one(pull__subscriptions__feed_id = feed_to_be_removed.id)
+        User.objects(id = current_user.id).update_one(pull__subscriptions__feed_id = feed_to_be_removed.id)
         #atomically remove articles from unsubscribed feed for current user
-        Article. objects.filter(feed_id = feed_to_be_removed.id).update(pull__readers__user_id = current_user.id)
+        Article. objects(feed_id = feed_to_be_removed.id).update(pull__readers__user_id = current_user.id)
         return jsonify(dict(status = 'Success'))
     except DoesNotExist:
         return jsonify(dict(status = 'Error', message = 'Given feed does not exist'))
 
-@app.route('/getSubscribed')
+@app.route('/getUserInfo')
 @login_required
-def GetSubscribed():
-    '''Logic to get all feeds that a user has been subscribed to'''
+def GetUserInfo():
+    '''Logic to get all required information about a user '''
     items = []
     for subscription in current_user.subscriptions:
         feed = Feed.objects.get(id = subscription.feed_id)
@@ -122,8 +147,27 @@ def GetSubscribed():
                     #feed_id is encoded as string to allow it to be sent as JSON
                     feed_id = str( subscription.feed_id )\
                     , feed_name = feed.name\
-                    , category = subscription.category\
                     , UnreadCount = UnreadArticleCount\
                     )
         items.append(item)
-    return jsonify(dict(subscriptions = items))
+    return jsonify(dict(\
+            name = current_user.name\
+            , email = current_user.email\
+            , subscriptions = items\
+            ))
+
+@app.route('/getUnreadArticles/<feedId>')
+@login_required
+def GetUnreadArticles(feedId):
+    items = []
+    for article in Article.objects(feed_id = feedId, readers__user_id = current_user.id):
+        item = dict(\
+                title = article.features.title\
+                , content_snippet = article.features.content_snippet\
+                , source_link = article.source_url\
+                , time_stamp = time.mktime(article.time_stamp.timetuple())\
+                )
+        items.append(item)
+    return jsonify(dict(\
+            articles = items\
+            ))

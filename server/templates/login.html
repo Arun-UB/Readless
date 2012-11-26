@@ -1,14 +1,42 @@
 {% extends "layout.html" %}
 {% block body %}
-  <h2>Login</h2>
+
+<link rel="stylesheet" type="text/css" href="{[ url_for('static', filename='../static/app/css/signin.css')]}">
+
+  <header>
+
+
+            <div class="navbar navbar-fixed-top ">
+
+                <div class="navbar-inner">
+                    <div class="container">
+                        <a class="brand" data-toggle="modal" href="#modalAbout">
+                            Readless
+                        </a>
+
+                        
+                        <div class="nav pull-right">
+                          <a class="btn btn-info" href="/signup">Sign up</a>
+                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </header>
   {% if error %}<p class=error><strong>Error:</strong> {[ error ]}{% endif %}
-  <form action="{[ url_for('login') ]}" method=post>
-    <dl>
-      <dt>Username:
-      <dd><input type=text name=email>
-      <dt>Password:
-      <dd><input type=password name=password>
-      <dd><input type=submit value=Login>
-    </dl>
-  </form>
+
+    <div class="container">
+
+        <form action="{[ url_for('signin') ]}" class="form-signin" method=post>
+        <h3 class="form-signin-heading">Sign in</h3>
+      
+        <input type="text" class="input-block-level" autofocus required placeholder="Email address" name=email>
+      
+        <input type="password" name=password class="input-block-level" required placeholder="Password">
+      
+        <input class="btn btn-large btn-success" type="submit" value="Sign in">
+      </form>
+</div>
 {% endblock %}

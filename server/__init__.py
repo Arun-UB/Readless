@@ -28,15 +28,18 @@ db = MongoEngine(app)
 login_manager = LoginManager()
 login_manager.setup_app(app)
 
+#set view to redirect to for login
+login_manager.login_view = '/signin'
+
 #create a log handler and attach it to app
 handler = FileHandler('app.log')
 handler.setLevel(logging.INFO)
 app.logger.addHandler(handler)
 
 #load models
-from models import User
+from models import User, Article, Feed, Reader, Features
 
-#setting up user_loader callback
+#setting up user_loader callback, for Flask login
 @login_manager.user_loader
 def load_user(userid):
     return User.objects.get(id = userid)
