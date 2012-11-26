@@ -15,4 +15,6 @@ mongoengine==0.7.6
 nltk==2.0.3
 numpy==1.6.2
 pymongo==2.3
+python-dateutil==2.1
+six==1.2.0
 wsgiref==0.1.2
