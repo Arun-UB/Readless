@@ -58,11 +58,13 @@ def signup():
                 error = 'Invalid name'
             else:
                 app.logger.error('An unknown validation error occured while trying to sign up a user')
+                error = 'An internal server error stopped you from signing up'
     return render_template('signup.html', error=error)
 
 @app.route('/changePassword', methods=['GET', 'POST'])
 @login_required
 def ChangePassword():
+    '''Logic to change the password of the logged in user'''
     error = None
     if request.method == 'POST':
         if check_password_hash(current_user.password_hash, request.form['Old_Password']) is False:
@@ -81,12 +83,13 @@ def ChangePassword():
 
 @app.route('/')
 def redirect_to_index():
+    '''a simple redirect to the index page'''
     return redirect(url_for('index'))
 
 @app.route('/index')
 @login_required
 def index():
-    '''a simple index page'''
+    '''returns main index page containing all the files angular needs on the client side'''
     return render_template('index.html')
 
 @app.route('/markRead/<article_id>')
@@ -130,7 +133,7 @@ def Unsubscribe(rss_id):
         #atomically remove feed subscription from current user
         User.objects(id = current_user.id).update_one(pull__subscriptions__feed_id = feed_to_be_removed.id)
         #atomically remove articles from unsubscribed feed for current user
-        Article. objects(feed_id = feed_to_be_removed.id).update(pull__readers__user_id = current_user.id)
+        Article.objects(feed_id = feed_to_be_removed.id).update(pull__readers__user_id = current_user.id)
         return jsonify(dict(status = 'Success'))
     except DoesNotExist:
         return jsonify(dict(status = 'Error', message = 'Given feed does not exist'))
@@ -159,6 +162,7 @@ def GetUserInfo():
 @app.route('/getUnreadArticles/<feedId>')
 @login_required
 def GetUnreadArticles(feedId):
+    '''Logic to get unread articles for a particular subscribed feed for the current user'''
     items = []
     for article in Article.objects(feed_id = feedId, readers__user_id = current_user.id):
         item = dict(\

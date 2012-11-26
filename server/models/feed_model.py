@@ -43,4 +43,5 @@ class Feed(db.Document):
         return feed
 
 class NotAFeed(Exception):
+    '''Thrown if attempt is made to create a feed object from a non-feed url'''
     pass
