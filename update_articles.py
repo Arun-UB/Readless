@@ -1,3 +1,7 @@
+from bs4 import BeautifulSoup
+import urllib
+import re, argparse, sys
+import nltk
 import feedparser
 from server import Article, Feed, Reader, User, Features, db
 from dateutil.parser import parse
@@ -15,7 +19,7 @@ def get_readers_from(article_features, feed_subscribers):
         subscribers.append(new_reader)
     return subscribers
 
-def save_new_articles_from_fede(feed):
+def save_new_articles_from_feed(feed):
     '''save new articles from the given feed(represented by a feed object)'''
     parsed_feed = feedparser.parse(feed.rss_url)
     if parsed_feed.bozo is 1:
@@ -53,7 +57,7 @@ def get_article_snippet(article, char_length = 128):
         html_data = BeautifulSoup(article)                          
         pattern = re.compile('[\W_ ]+')
         words = ''.join(BeautifulSoup(article).findAll(text=True))  #Join the words from the html content.
-        if len(article < char_length)                               #Return the unedited snippet if length is less than the requested characters.
+        if len(article) < char_length:                               #Return the unedited snippet if length is less than the requested characters.
             return article + '...' 
         else:
             return article[:char_length] + '...'
@@ -70,14 +74,14 @@ def get_words_in_article(url):
     words = html_data.findAll(text=True)    #setting text to True to extract only the text in the <body>
     word_list = []                          #Stores the list of words
     for word in words[30:]:                 #Removing redundant content from Instapaper Mobilizer headers
-    for w in word.split(" "):               #splitting on spcae for multiword strings
-        wd = (pattern.sub('',w.lower()))    #substituing non alphanumeric characters with ''
-        if len(wd) > 1 : word_list.append(wd)#exclude strings of less than 2 characters
+        for w in word.split(" "):               #splitting on spcae for multiword strings
+            wd = (pattern.sub('',w.lower()))    #substituing non alphanumeric characters with ''
+            if len(wd) > 1 : word_list.append(wd)#exclude strings of less than 2 characters
     filtered_words = [w for w in word_list if not w in nltk.corpus.stopwords.words('english')]
     return dict((word,True) for word in word_list)
 
 if __name__ == '__main__':
     print 'Starting to get Feeds'
     for feed in Feed.objects.all():
-        print 'Processing ' + feed + ' '
+        print '\nProcessing ' + feed.name + ' '
         save_new_articles_from_feed(feed)
