@@ -56,11 +56,11 @@ def get_article_snippet(article, char_length = 128):
     if(type(char_length) is int):                                   #Make sure char_length a int parameter.
         html_data = BeautifulSoup(article)                          
         pattern = re.compile('[\W_ ]+')
-        words = ''.join(BeautifulSoup(article).findAll(text=True))  #Join the words from the html content.
-        if len(article) < char_length:                               #Return the unedited snippet if length is less than the requested characters.
-            return article + '...' 
+        words = ''.join(html_data.findAll(text=True))               #Join the words from the html content.
+        if len(article) < char_length:                              #Return the unedited snippet if length is less than the requested characters.
+            return words + '...' 
         else:
-            return article[:char_length] + '...'
+            return words[:char_length] + '...'
 
 def get_words_in_article(url):
     '''Arguments : URL
@@ -81,7 +81,8 @@ def get_words_in_article(url):
     return dict((word,True) for word in word_list)
 
 if __name__ == '__main__':
+    print get_article_snippet('<img src="dkfuhdgnds">dsfsdf</img>sadhishuidhfasdf')
     print 'Starting to get Feeds'
-    for feed in Feed.objects.all():
-        print '\nProcessing ' + feed.name + ' '
-        save_new_articles_from_feed(feed)
+    #for feed in Feed.objects.all():
+    #    print '\nProcessing ' + feed.name + ' '
+    #    save_new_articles_from_feed(feed)
