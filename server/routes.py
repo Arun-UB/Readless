@@ -6,10 +6,10 @@ if app.config['DEBUG'] is True:
     app.add_url_rule('/test_config', view_func=testConfig)
 
 #routes related to user management
-app.add_url_rule('/signin', view_func=signin)
+app.add_url_rule('/signin', view_func=signin, methods=['GET', 'POST'])
 app.add_url_rule('/signout', view_func=signout)
-app.add_url_rule('/signup', view_func=signup)
-app.add_url_rule('/changePassword', view_func=changePassword)
+app.add_url_rule('/signup', view_func=signup, methods=['GET', 'POST'])
+app.add_url_rule('/changePassword', view_func=changePassword, methods=['GET', 'POST'])
 
 #routes that control access to main page
 app.add_url_rule('/', view_func=redirectToIndex)
