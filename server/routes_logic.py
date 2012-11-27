@@ -6,8 +6,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from models import User, Article, Reader, Feed, Subscription, NotAFeed
 import time
 
-def test_config():
-    '''just a test, to be removed later'''
+def testConfig():
+    '''just a test, is only accessible when in DEBUG mode'''
     return Response(app.config['MONGODB_DB'], mimetype='text/plain')
 
 def signin():
@@ -58,7 +58,7 @@ def signup():
     return render_template('signup.html', error=error)
 
 @login_required
-def ChangePassword():
+def changePassword():
     '''Logic to change the password of the logged in user'''
     error = None
     if request.method == 'POST':
@@ -76,7 +76,7 @@ def ChangePassword():
                 error = 'Failed to save new password, try again later'
     return render_template('changePassword.html', error = error)
 
-def redirect_to_index():
+def redirectToIndex():
     '''a simple redirect to the index page'''
     return redirect(url_for('index'))
 
@@ -86,7 +86,7 @@ def index():
     return render_template('index.html')
 
 @login_required
-def MarkRead(article_id):
+def markRead(article_id):
     '''Logic to atomically mark an article as being read by the logged in user'''
     #TODO: test it
     #atomically remove current user from readers of given article
@@ -94,7 +94,7 @@ def MarkRead(article_id):
     return jsonify(dict(status = 'Success'))
 
 @login_required
-def MarkUnread(article_id):
+def markUnread(article_id):
     '''Logic to atomically mark an article as being unread by the logged in user'''
     #TODO: test it
     new_reader = Reader(user_id = current_user.id)
@@ -103,7 +103,7 @@ def MarkUnread(article_id):
     return jsonify(dict(status = 'Success'))
 
 @login_required
-def Subscribe(rss_url):
+def subscribe(rss_url):
     '''Logic to add a given rss feed to the db, if required, and subscribe the current user to this feed'''
     try:
         feed = Feed.get_or_construct(rss_url)
@@ -115,7 +115,7 @@ def Subscribe(rss_url):
     return jsonify(dict(status = 'Success'))
 
 @login_required
-def Unsubscribe(rss_id):
+def unsubscribe(rss_id):
     '''Logic to unsubscribe a user from an rss feed, and all articles from that feed'''
     try:
         feed_to_be_removed = Feed.objects.get(id = rss_id)
@@ -128,7 +128,7 @@ def Unsubscribe(rss_id):
         return jsonify(dict(status = 'Error', message = 'Given feed does not exist'))
 
 @login_required
-def GetUserInfo():
+def getUserInfo():
     '''Logic to get all required information about a user '''
     items = []
     for subscription in current_user.subscriptions:
@@ -149,7 +149,7 @@ def GetUserInfo():
             ))
 
 @login_required
-def GetUnreadArticles(feedId):
+def getUnreadArticles(feedId):
     '''Logic to get unread articles for a particular subscribed feed for the current user'''
     items = []
     for article in Article.objects(feed_id = feedId, readers__user_id = current_user.id):
