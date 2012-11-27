@@ -28,7 +28,7 @@ db = MongoEngine(app)
 login_manager = LoginManager()
 login_manager.setup_app(app)
 
-#set view to redirect to for login
+#set url to redirect to for login
 login_manager.login_view = '/signin'
 
 #create a log handler and attach it to app
