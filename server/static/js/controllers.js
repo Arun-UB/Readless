@@ -1,49 +1,36 @@
 'use strict';
 
 /* Controllers */
-function UserCtrl ($scope,$http) {
+function SubscribeCtrl($scope,$http){
 	
 	
 	$scope.getUserInfo=function(){
 	 	$scope.url='/getUserInfo';
 	 	$http.get($scope.url).success(function(data,status){
-	 		console.log(data);
+	 		//console.log(data);
 	 		$scope.uName=data.name.trim();
-	 		limit(data.subscriptions)
+	 		$scope.disp_feed_name={};
 
-	 	function limit (subs) {
-	 		/*var i;
-	 		for(i=0;i<subs.length;i++)
-	 		console.log(subs[i].feed_name)*/
-	 		angular.forEach(subs,function(sub){
-	 			if(sub.feed_name.length >= 18)
+	 		angular.forEach(data.subscriptions,function(sub){	
+
+	 			sub.site_url=sub.site_url.replace(/http:\/\//g,"");
+	 			this[sub.feed_id]=(sub.feed_name);
+	 			if(sub.feed_name.length >= 18){
+	 			
 	 			sub.feed_name=sub.feed_name.substring(0,18)+'...';
 
-	 		})
-	 	}
+	 			}
+	 		},$scope.disp_feed_name);
+	 		//console.log($scope.disp_feed_name);
 	 		$scope.feeds=data.subscriptions;
-	 		//console.log($scope.feeds)
+	 		
 	 	}
 	 	);
 	 }
 	 $scope.getUserInfo();
-}
-function SubscribeCtrl($scope,$http){
-	//console.log($scope.SubscribeKwd);
+
+
 	
-	 /* $scope.find=function () {
-	  	console.log($scope.SubscribeKwd);
-	  	 $scope.url= document.location.protocol + '//ajax.googleapis.com/ajax/services/feed/find?v=1.0&callback=?&q=' + encodeURIComponent($scope.SubscribeKwd);
-		$http.jsonp($scope.url).success(function find(data) {
-    console.log(data);
-  });
-	//	$scope.fUrl= parse
-
-}*/
-	/*function handleSubAdded(data,status){
-		console.log(data)
-	}*/
-
 	 $scope.add=function(){
 	 	$scope.url='subscribe/'+ encodeURIComponent($scope.SubscribeKwd);
 	 	console.log($scope.url)
@@ -52,21 +39,33 @@ function SubscribeCtrl($scope,$http){
 	 		console.log(data.status);
 	 		if(data.status=="Success"){
 	 			
-	 			UserCtrl();
+	 			$scope.getUserInfo();
+	 		}
+	 		else{
+	 			$scope.msg="There was an error,try again"
 	 		}
 	 	}
 
 	 		);
 	 }
 
+	$scope.loadFeeds=function(feed_id,feed_name,site_url){
+		
+		$scope.url='getUnreadArticles/'+feed_id;
+		
+		$http.get($scope.url).success(function(data,status){
+	 		$scope.cur_feed_id=feed_id;
+	 		$scope.cur_feed_name=$scope.disp_feed_name[feed_id];
+	 		$scope.cur_site_url=site_url;
+	 		$scope.articles=data.articles;
 
+	 			//console.log($scope.cur_site_url);
+
+
+	 		
+	 	}
+	 	);
+	}
 		
 
 }
-function MyCtrl1() {}
-MyCtrl1.$inject = [];
-
-
-function MyCtrl2() {
-}
-MyCtrl2.$inject = [];

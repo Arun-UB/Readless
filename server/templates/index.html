@@ -37,12 +37,12 @@
              <script src="{[ url_for('static', filename='js/libs/modernizr-2.5.3.min.js')]}"></script>
             
     </head>
-    <body>
+    <body  ng-controller="SubscribeCtrl" >
         <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
              chromium.org/developers/how-tos/chrome-frame-getting-started -->
         <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 
-        <header ng-controller="UserCtrl">
+        <header>
 
 
             <div class="navbar navbar-fixed-top ">
@@ -73,10 +73,10 @@
 
 
         </header>
-<div class="container alert fade in" >
+<!--<div class="container alert {{alertClass}} fade in" >
             <button type="button" class="close" data-dismiss="alert">×</button>
-            <strong>Holy guacamole!</strong> Best check yo self, you're not looking too good.
-          </div>
+            <strong>Holy guacamole!</strong> {{msg}}
+          </div>-->
         <div id="content" class="container">
 
             <div class="row">
@@ -84,7 +84,7 @@
                     <div id="subscribe">
                         <a class="btn btn-info" data-toggle="modal" data-target="#subscribeModal"  href="#"><i class="icon-plus-sign icon-white"></i> <strong> Subscribe</strong></a>
                     </div>
-                        <div ng-controller="SubscribeCtrl" id="subscribeModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div id="subscribeModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                               <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h3 id="myModalLabel">Subscribe</h3>
@@ -102,12 +102,12 @@
                               
                               </div>
                         </div>
-                    <div class="subscriptions" ng-controller="UserCtrl">
+                    <div class="subscriptions">
                         <i class="icon-list"></i>
                         <strong>Subscriptions</strong>
                         <div id="sub-list">
                             <ul class="unstyled">
-                                <li  ng-repeat="feed in feeds" class="src"><span class="fav"><img src="https://www.google.com/s2/favicons?domain= {{feed.site_url}} &alt=feed"/></span>{{feed.feed_name}}<span class="badge ">{{feed.UnreadCount}}
+                                <li  ng-click="loadFeeds(feed.feed_id,feed.feed_name,feed.site_url)" ng-repeat="feed in feeds" class="src"><span class="fav"><img ng-src="https://www.google.com/s2/favicons?domain={{feed.site_url}}&alt=feed"/></span>{{feed.feed_name}}<span class="badge ">{{feed.UnreadCount}}
 
                                 </li>
                                 
@@ -117,8 +117,8 @@
                         </div>
                     </div>
                 </div>
-                <div id="feeds" class="span9">
-                    <div class="f-head"> <a href="http://www.engadget.com" target="_blank">Engadget</a> 
+                <div id="feeds" class="span9" >
+                    <div class="f-head"> <a ng-href="http://{{cur_site_url}}" target="_blank">{{cur_feed_name}}</a> 
                      <span id="trash"><i class="icon-trash "></i></span>
                     </div>
                      
@@ -151,20 +151,12 @@
                     </div>
                     <div id="main" >
                          <ul class="slats unstyled">
-  <li class="group">
-    <h3><a href="http://www.engadget.com/2012/11/14/jellyfish-inspired-microchip-captures-cancer-cells/" target="_blank">Jellyfish-mimicking device could snatch cancer cells right out of the bloodstream</a></h3>
-       <p>  If you think the picture above looks like droplets of blood being snared in a sticky tentacle, then you have a scarily active ... </p>
+  <li ng-repeat="article in articles" class="group">
+    <h3><a href="{{article.source_link}}" target="_blank">{{article.title}}</a></h3>
+       <p> {{article.content_snippet}} </p>
   </li>
-  <li class="group">
-    <h3><a href="http://www.engadget.com/2012/11/14/galaxy-note-10-1-for-the-queen/" target="_blank">Samsung's Galaxy Note 10.1 is fit for a queen -- The Queen, in fact</a></h3>
-    
-    <p>  The Queen always keeps up with the latest technology, and today she'll try to squeeze a Galaxy Note 10.1 into her handbag. ...<span class="meta"></span></p>
-  </li>
-  <li class="group">
-    <h3><a href="http://www.engadget.com/2012/11/14/skype-disables-password-reset-page-email-based-security/" target="_blank">Skype disables password reset page to deal with email-based security 'vulnerability'</a></h3>
-    
-    <p>  Skype has taken down its password reset page as it deals with a password reset exploit that can give suspicious types access ... <span class="meta"></span></p>
-  </li>
+ 
+  
 </ul>     
          
         
