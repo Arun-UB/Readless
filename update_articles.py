@@ -81,8 +81,7 @@ def get_words_in_article(url):
     return dict((word,True) for word in word_list)
 
 if __name__ == '__main__':
-    print get_article_snippet('<img src="dkfuhdgnds">dsfsdf</img>sadhishuidhfasdf')
     print 'Starting to get Feeds'
-    #for feed in Feed.objects.all():
-    #    print '\nProcessing ' + feed.name + ' '
-    #    save_new_articles_from_feed(feed)
+    for feed in Feed.objects.all():
+        print '\nProcessing ' + feed.name + ' '
+        save_new_articles_from_feed(feed)
