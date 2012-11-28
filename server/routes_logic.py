@@ -154,7 +154,7 @@ def getUserInfo():
     items = []
     for subscription in current_user.subscriptions:
         feed = Feed.objects.get(id = subscription.feed_id)
-        UnreadArticleCount = Article.objects(feed_id = subscription.feed_id).count()
+        UnreadArticleCount = Article.objects(feed_id = subscription.feed_id, readers__user_id = current_user.id).count()
         item = dict(\
                     #feed_id is encoded as string to allow it to be sent as JSON
                     feed_id = str( subscription.feed_id )\
