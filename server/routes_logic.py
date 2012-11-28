@@ -154,7 +154,7 @@ def getUnreadArticles(feedId):
     items = []
     for article in Article.objects(feed_id = feedId, readers__user_id = current_user.id):
         item = dict(\
-                article_id = article.id\
+                article_id = str( article.id )\
                 , title = article.features.title\
                 , content_snippet = article.features.content_snippet\
                 , source_link = article.source_url\
