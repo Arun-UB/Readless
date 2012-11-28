@@ -108,8 +108,14 @@ def markUnread(article_id):
     #TODO: test it
     new_reader = Reader(user_id = current_user.id)
     #atomically add current user to readers of given article
-    Article.objects(id = article_id).update_one(add_to_set__readers = new_reader)
-    return jsonify(dict(status = 'Success'))
+    number_of_items_affected = Article.objects(id = article_id).update_one(add_to_set__readers = new_reader)
+    if number_of_items_affected is 1:
+        return jsonify(dict(status = 'Success'))
+    else:
+        return jsonify(dict(\
+                status = 'Error'\
+                , message = 'No articles matched the given id'\
+                ))
 
 @login_required
 def subscribe(rss_url):
@@ -120,8 +126,14 @@ def subscribe(rss_url):
         return jsonify(dict(status = 'Error', message='The given url is not an rss feed url'))
     new_subscription = Subscription(feed_id = feed.id)
     #atomically add new feed subscription to current user
-    User.objects(id = current_user.id).update_one(add_to_set__subscriptions = new_subscription)
-    return jsonify(dict(status = 'Success'))
+    number_of_items_affected = User.objects(id = current_user.id).update_one(add_to_set__subscriptions = new_subscription)
+    if number_of_items_affected is 1:
+        return jsonify(dict(status = 'Success'))
+    else:
+        return jsonify(dict(\
+                status = 'Error'\
+                , message = 'Unable to subscribe'\
+                ))
 
 @login_required
 def unsubscribe(rss_id):
@@ -142,7 +154,7 @@ def getUserInfo():
     items = []
     for subscription in current_user.subscriptions:
         feed = Feed.objects.get(id = subscription.feed_id)
-        UnreadArticleCount = Article.objects(feed_id = subscription.feed_id).count()
+        UnreadArticleCount = Article.objects(feed_id = subscription.feed_id, readers__user_id = current_user.id).count()
         item = dict(\
                     #feed_id is encoded as string to allow it to be sent as JSON
                     feed_id = str( subscription.feed_id )\
