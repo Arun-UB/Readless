@@ -70,7 +70,7 @@ function SubscribeCtrl($scope,$http,$log){
 	 		$scope.articles=data.articles;
 	 		$scope.hide=false;
 	 			//console.log($scope.cur_site_url);
-	 			console.log($scope.articles.length);
+	 			//console.log($scope.articles.length);
 
 
 	 		
@@ -98,12 +98,36 @@ function SubscribeCtrl($scope,$http,$log){
 
 	}
 
-	$scope.mark=function(){
-		$log.info('here')
-		$scope.articles.pop();
-		$log.info($scope.allFeeds.subscriptions);
-		$scope.uCount[$scope.cur_feed_id]=$scope.articles.length;
-		//$scope.feeds[$scope.cur_feed_id].UnreadCount=$scope.articles.length;
+	$scope.mark=function(article_id){
+		//$log.info('here')
+		//$scope.articles.pop('article_id');
+		//$log.info($scope.allFeeds.subscriptions);
+		//$scope.uCount[$scope.cur_feed_id]=$scope.articles.length;
+		$scope.url='markRead/'+article_id;
+		//$log.info($scope.url)
+		
+			$http.get($scope.url).success(function(data,status){
+	 		$log.info(data);
+	 		
+	 		var i=0;
+	 		angular.forEach($scope.articles,function(art){	
+	 			//$log.info($scope.uCount[$scope.cur_feed_id])
+	 			if(art.article_id==article_id){	 				
+	 				delete $scope.articles[i];
+	 				//$log.info($scope.articles)
+	 				$scope.uCount[$scope.cur_feed_id]-=1;
+	 				$log.info($scope.uCount[$scope.cur_feed_id])
+
+	 				}		
+	 			i++;
+	 			
+	 		},i);
+
+	 		$log.info($scope.articles)
+	 		
+
+	 		
+	 	});
 
 	}
 		

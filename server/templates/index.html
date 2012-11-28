@@ -159,7 +159,7 @@
     <h3><a href="{{article.source_link}}" target="_blank"><span ng-bind="article.title"></span></a></h3>
     
        <p ng-bind="article.content_snippet">  </p>
-       <span  ng-click="mark()" class="mark pull-right" >Mark as read</span>
+       <span  ng-click="mark(article.article_id)" class="mark pull-right" >Mark as read</span>
   </li>
  
   
