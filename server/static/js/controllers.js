@@ -103,7 +103,7 @@ function SubscribeCtrl($scope,$http,$log){
 		//$scope.articles.pop('article_id');
 		//$log.info($scope.allFeeds.subscriptions);
 		//$scope.uCount[$scope.cur_feed_id]=$scope.articles.length;
-		$scope.url='markRead/'+article_id;
+		$scope.url='markRead/'+article_id+'/0';
 		//$log.info($scope.url)
 		
 			$http.get($scope.url).success(function(data,status){
@@ -113,7 +113,7 @@ function SubscribeCtrl($scope,$http,$log){
 	 		angular.forEach($scope.articles,function(art){	
 	 			//$log.info($scope.uCount[$scope.cur_feed_id])
 	 			if(art.article_id==article_id){	 				
-	 				delete $scope.articles[i];
+	 				 $scope.articles.splice(i,1);
 	 				//$log.info($scope.articles)
 	 				$scope.uCount[$scope.cur_feed_id]-=1;
 	 				$log.info($scope.uCount[$scope.cur_feed_id])
@@ -129,6 +129,10 @@ function SubscribeCtrl($scope,$http,$log){
 	 		
 	 	});
 
+	}
+
+	$scope.read=function(article_id){
+		$log.info(article_id)
 	}
 		
 

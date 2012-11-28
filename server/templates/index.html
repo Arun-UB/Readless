@@ -155,11 +155,11 @@
                     </div>
                     <div id="main" >
                          <ul class="slats unstyled">
-  <li  ng-repeat="article in articles" class="group">
-    <h3><a href="{{article.source_link}}" target="_blank"><span ng-bind="article.title"></span></a></h3>
+  <li ng-repeat="article in articles" class="group">
+    <h3><a ng-click="read(article.article_id)" href="{{article.source_link}}" target="_blank"><span ng-bind="article.title"></span></a></h3>
     
        <p ng-bind="article.content_snippet">  </p>
-       <span  ng-click="mark(article.article_id)" class="mark pull-right" >Mark as read</span>
+       <span  ng-click="markAsRead(article.article_id)" class="mark pull-right" >Mark as read</span>
   </li>
  
   
