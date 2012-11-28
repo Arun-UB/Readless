@@ -38,6 +38,6 @@ def train():
 			#pprint.pprint(words)
 			classifier = PositiveNaiveBayesClassifier.train(words,map(get_words_in_title,unlabled_titles_list)) 
 			subscription.classifier_object = pickle.dumps(classifier)
-			subscription.save()
+        user.save()
 	print classifier.classify(get_words_in_title("this is a test title"))
 train()

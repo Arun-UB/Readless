@@ -19,6 +19,8 @@ def get_words_in_title(title):
 	return dict((word,True) for word in filtered_words)
 
 def get_score(classifier_string, article_features):
+    if classifier_string is None:
+        return 0.5
     classifier = pickle.loads(classifier_string)
     if classifier.classify(get_words_in_title(article_features.title)) is True:
         return 1
@@ -32,6 +34,7 @@ def get_readers_from(feed_id, article_features, feed_subscribers):
     '''
     subscribers = []
     for feed_subscriber in feed_subscribers:
+        classifier_string = None
         for subscription in feed_subscriber.subscriptions:
             if subscription.feed_id is feed_id:
                 classifier_string = subscription.classifier_object
