@@ -3,18 +3,44 @@ import urllib
 import re, argparse, sys
 import nltk
 import feedparser
+import pickle
 from server import Article, Feed, Reader, User, Features, db
 from dateutil.parser import parse
+import re
 
-def get_readers_from(article_features, feed_subscribers):
+pattern = re.compile('[\W_ ]+')
+
+def get_words_in_title(title):
+	word_list = []
+	for w in title.split(" "):
+	    wd = (pattern.sub('',w.lower()))	
+	    if len(wd) > 1 : word_list.append(wd)
+	filtered_words = [w for w in word_list if not w in nltk.corpus.stopwords.words('english')]
+	return dict((word,True) for word in filtered_words)
+
+def get_score(classifier_string, article_features):
+    if classifier_string is None:
+        return 0.5
+    classifier = pickle.loads(classifier_string)
+    if classifier.classify(get_words_in_title(article_features.title)) is True:
+        return 1
+    else:
+        return 0
+
+def get_readers_from(feed_id, article_features, feed_subscribers):
     '''
     creates a list of reader objects for an article 
     from a list of feed subscribers
     '''
     subscribers = []
     for feed_subscriber in feed_subscribers:
+        classifier_string = None
+        for subscription in feed_subscriber.subscriptions:
+            if subscription.feed_id is feed_id:
+                classifier_string = subscription.classifier_object
         new_reader = Reader(\
                 user_id = feed_subscriber.id \
+                , score = get_score(classifier_string,article_features)
                 )
         subscribers.append(new_reader)
     return subscribers
@@ -40,7 +66,7 @@ def save_new_articles_from_feed(feed):
                 , features = article_features\
                 , feed_id = feed.id\
                 , time_stamp = parse(entry.published)\
-                , readers = get_readers_from(article_features, feed_subscribers)\
+                , readers = get_readers_from(feed.id, article_features, feed_subscribers)\
                 )
         try:
             new_article.save()

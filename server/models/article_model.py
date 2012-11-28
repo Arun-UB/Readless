@@ -20,4 +20,6 @@ class Article(db.Document):
     feed_id = db.ObjectIdField()
     features = db.EmbeddedDocumentField('Features')
     readers = db.ListField(db.EmbeddedDocumentField('Reader'))
+    interested_users = db.ListField(db.ObjectIdField())
+    uninterested_users = db.ListField(db.ObjectIdField())
     time_stamp = db.DateTimeField(default = datetime.datetime.now())

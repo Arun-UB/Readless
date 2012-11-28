@@ -86,11 +86,20 @@ def index():
     return render_template('index.html')
 
 @login_required
-def markRead(article_id):
+def markRead(article_id, interest):
     '''Logic to atomically mark an article as being read by the logged in user'''
     #TODO: test it
-    #atomically remove current user from readers of given article
-    Article.objects(id = article_id).update_one(pull__readers__id = current_user.id)
+    #atomically remove current user from readers of given article, add them to the interested/uninterested list
+    if interest is 0:
+        Article.objects(id = article_id).update_one(\
+                pull__readers__id = current_user.id\
+                , add_to_set__uninterested_users = current_user.id\
+                )
+    else:
+        Article.objects(id = article_id).update_one(\
+                pull__readers__id = current_user.id\
+                , add_to_set__interested_users = current_user.id\
+                )
     return jsonify(dict(status = 'Success'))
 
 @login_required
