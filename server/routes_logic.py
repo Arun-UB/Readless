@@ -108,8 +108,14 @@ def markUnread(article_id):
     #TODO: test it
     new_reader = Reader(user_id = current_user.id)
     #atomically add current user to readers of given article
-    Article.objects(id = article_id).update_one(add_to_set__readers = new_reader)
-    return jsonify(dict(status = 'Success'))
+    number_of_items_affected = Article.objects(id = article_id).update_one(add_to_set__readers = new_reader)
+    if number_of_items_affected is 1:
+        return jsonify(dict(status = 'Success'))
+    else:
+        return jsonify(dict(\
+                status = 'Error'\
+                , message = 'No articles matched the given id'\
+                ))
 
 @login_required
 def subscribe(rss_url):
@@ -120,8 +126,14 @@ def subscribe(rss_url):
         return jsonify(dict(status = 'Error', message='The given url is not an rss feed url'))
     new_subscription = Subscription(feed_id = feed.id)
     #atomically add new feed subscription to current user
-    User.objects(id = current_user.id).update_one(add_to_set__subscriptions = new_subscription)
-    return jsonify(dict(status = 'Success'))
+    number_of_items_affected = User.objects(id = current_user.id).update_one(add_to_set__subscriptions = new_subscription)
+    if number_of_items_affected is 1:
+        return jsonify(dict(status = 'Success'))
+    else:
+        return jsonify(dict(\
+                status = 'Error'\
+                , message = 'Unable to subscribe'\
+                ))
 
 @login_required
 def unsubscribe(rss_id):
