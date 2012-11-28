@@ -16,7 +16,7 @@ app.add_url_rule('/', view_func=redirectToIndex)
 app.add_url_rule('/index', view_func=index)
 
 #routes used by AJAX requests
-app.add_url_rule('/markRead/<article_id>', view_func=markRead)
+app.add_url_rule('/markRead/<article_id>/<int:interest>', view_func=markRead)
 app.add_url_rule('/markUnread/<article_id>', view_func=markUnread)
 app.add_url_rule('/subscribe/<path:rss_url>', view_func=subscribe)
 app.add_url_rule('/unsubscribe/<rss_id>', view_func=unsubscribe)
