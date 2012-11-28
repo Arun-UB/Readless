@@ -30,9 +30,11 @@ box-shadow: inset -4px 0px 10px #888;*/
 }
 #main{
     position: absolute;
+    z-index: 1;
     max-height: 450px;
     width: 700px;
     overflow: auto;
+
     
 }
 #feeds{
@@ -48,7 +50,7 @@ margin-left: 10px;
 margin-right: 10px;
 padding-bottom: 20px;
 border-bottom: gray thin solid;
-font-size: 26px;	
+font-size: 22px;	
 color: green;
 font-weight: bold;
 }
@@ -128,3 +130,11 @@ padding: 10px 15px 15px 15px;
     left: -80px
 
 }  
+.mark{
+
+    /*padding-top: 10px;*/
+    position: relative;
+    top:-25px;
+    font-size: 11px;
+    cursor: pointer;
+}
