@@ -34,14 +34,7 @@
         <!-- All JavaScript at the bottom, except this Modernizr build.
              Modernizr enables HTML5 elements & feature detects for optimal performance.
              Create your own custom Modernizr build: www.modernizr.com/download/ -->
-             <script src="{[ url_for('static', filename='js/libs/modernizr-2.5.3.min.js')]}"></script>
-             <script>
-  // $window is MyApplication controller dependency
-  // Asking for $window in the constructor declares it as dependency 
-  MyApplication = function($window) {
-    $window.alert('hello world');
-  }
-</script>
+           
             
     </head>
     <body  ng-controller="SubscribeCtrl" >
@@ -123,9 +116,27 @@
                 </div>
                 <div id="feeds" class="span9" >
                     <div class="f-head"> <a ng-href="http://{{cur_site_url}}" target="_blank"><span ng-bind="cur_feed_name"></span></a> 
-                     <span id="trash" ng-click="unsubscribe(cur_feed_id)"><i ng-hide="hide" class="icon-trash "></i></span>
+                     <span id="trash" data-toggle="modal" data-target="#unsubscribeModal" ><i ng-hide="hide" class="icon-trash "></i></span>
                     </div>
                      
+                    <div id="unsubscribeModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h3 id="myModalLabel">Unsubscribe</h3>
+                              </div>
+                              <div class="modal-body ">
+                                <div>Unsubscribe from "{{cur_feed_name}}"?</div>
+
+                              </div>
+
+                              <div class="modal-footer">
+                            
+                                <button class="btn btn-danger" ng-click="unsubscribe(cur_feed_id)">Yes</button>
+                                  <button class="btn " data-dismiss="modal">Cancel</button>
+                                
+                              </div>
+                    </div>
+
                     <div id="options" class="pull-right">
                     
                         <div class="btn-group ">
@@ -156,10 +167,10 @@
                     <div id="main" >
                          <ul class="slats unstyled">
   <li ng-repeat="article in articles" class="group">
-    <h3><a ng-click="read(article.article_id)" href="{{article.source_link}}" target="_blank"><span ng-bind="article.title"></span></a></h3>
+    <h3><a ng-click="read(article.article_id,1)" href="{{article.source_link}}" target="_blank"><span ng-bind="article.title"></span></a></h3>
     
        <p ng-bind="article.content_snippet">  </p>
-       <span  ng-click="markAsRead(article.article_id)" class="mark pull-right" >Mark as read</span>
+       <span  ng-click="read(article.article_id,0)" class="mark pull-right" >Mark as read</span>
   </li>
  
   
@@ -179,7 +190,7 @@
 
         <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="../js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+        <script>window.jQuery || document.write('<script src="static/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
 
         <!-- In production use:
        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>

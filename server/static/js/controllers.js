@@ -80,6 +80,7 @@ function SubscribeCtrl($scope,$http,$log){
 
 	$scope.unsubscribe=function(feed_id){
 		$log.info(feed_id);
+		$(".close").click();
 		$scope.url='unsubscribe/'+feed_id;
 			$http.get($scope.url).success(function(data,status){
 	 		$log.info(data);
@@ -98,15 +99,10 @@ function SubscribeCtrl($scope,$http,$log){
 
 	}
 
-	$scope.mark=function(article_id){
-		//$log.info('here')
-		//$scope.articles.pop('article_id');
-		//$log.info($scope.allFeeds.subscriptions);
-		//$scope.uCount[$scope.cur_feed_id]=$scope.articles.length;
-		$scope.url='markRead/'+article_id+'/0';
-		//$log.info($scope.url)
-		
-			$http.get($scope.url).success(function(data,status){
+	
+	$scope.read=function(article_id,interest){
+		$scope.url='markRead/'+article_id+'/'+interest;
+		$http.get($scope.url).success(function(data,status){
 	 		$log.info(data);
 	 		
 	 		var i=0;
@@ -124,15 +120,9 @@ function SubscribeCtrl($scope,$http,$log){
 	 		},i);
 
 	 		$log.info($scope.articles)
-	 		
-
-	 		
+	 			 		
 	 	});
 
-	}
-
-	$scope.read=function(article_id){
-		$log.info(article_id)
 	}
 		
 
