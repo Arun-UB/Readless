@@ -11,14 +11,16 @@ import re
 pattern = re.compile('[\W_ ]+')
 
 def get_words_in_title(title):
-	word_list = []
-	for w in title.split(" "):
-	    wd = (pattern.sub('',w.lower()))	
-	    if len(wd) > 1 : word_list.append(wd)
-	filtered_words = [w for w in word_list if not w in nltk.corpus.stopwords.words('english')]
-	return dict((word,True) for word in filtered_words)
+    "Get words in the title of an article"
+    word_list = []
+    for w in title.split(" "):
+        wd = (pattern.sub('',w.lower()))	
+        if len(wd) > 1 : word_list.append(wd)
+    filtered_words = [w for w in word_list if not w in nltk.corpus.stopwords.words('english')]
+    return dict((word,True) for word in filtered_words)
 
 def get_score(classifier_string, article_features):
+    "Use the trained classifier to find the interest for the new article"
     if classifier_string is None:
         return 0.5
     classifier = pickle.loads(classifier_string)
@@ -106,7 +108,8 @@ def get_words_in_article(url):
     filtered_words = [w for w in word_list if not w in nltk.corpus.stopwords.words('english')]
     return dict((word,True) for word in word_list)
 
-if __name__ == '__main__':
+def update():
+    """Update articles from all feeds"""
     print 'Starting to get Feeds'
     for feed in Feed.objects.all():
         print '\nProcessing ' + feed.name + ' '
