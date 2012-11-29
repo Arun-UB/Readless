@@ -174,7 +174,7 @@ def getUnreadArticles(feedId):
     '''Logic to get unread articles for a particular subscribed feed for the current user'''
     items = []
     for article in Article.objects(feed_id = feedId, readers__user_id = current_user.id):
-        for reader in readers:
+        for reader in article.readers:
             if reader.user_id is current_user.id: 
                 user_score = reader.score
         item = dict(\
