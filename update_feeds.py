@@ -11,17 +11,19 @@ import re
 pattern = re.compile('[\W_ ]+')
 
 def get_words_in_title(title):
-	word_list = []
-	for w in title.split(" "):
-	    wd = (pattern.sub('',w.lower()))	
-	    if len(wd) > 1 : word_list.append(wd)
-	filtered_words = [w for w in word_list if not w in nltk.corpus.stopwords.words('english')]
-	return dict((word,True) for word in filtered_words)
+    "Get words in the title of an article"
+    word_list = []
+    for w in title.split(" "):
+        wd = (pattern.sub('',w.lower()))	
+        if len(wd) > 1 : word_list.append(wd)
+    filtered_words = [w for w in word_list if not w in nltk.corpus.stopwords.words('english')]
+    return dict((word,True) for word in filtered_words)
 
-def get_score(classifier_string, article_features):
-    if classifier_string is None:
+def get_score(classifier_object, article_features):
+    "Use the trained classifier to find the interest for the new article"
+    if classifier_object is None:
         return 0.5
-    classifier = pickle.loads(classifier_string)
+    classifier = pickle.loads(classifier_object)
     if classifier.classify(get_words_in_title(article_features.title)) is True:
         return 1
     else:
@@ -34,13 +36,13 @@ def get_readers_from(feed_id, article_features, feed_subscribers):
     '''
     subscribers = []
     for feed_subscriber in feed_subscribers:
-        classifier_string = None
+        classifier_object = None
         for subscription in feed_subscriber.subscriptions:
             if subscription.feed_id is feed_id:
-                classifier_string = subscription.classifier_object
+                classifier_object = subscription.classifier_object
         new_reader = Reader(\
                 user_id = feed_subscriber.id \
-                , score = get_score(classifier_string,article_features)
+                , score = get_score(classifier_object,article_features)
                 )   #Set the scores for each user who has not yet read the article
         subscribers.append(new_reader)
     return subscribers
@@ -106,7 +108,8 @@ def get_words_in_article(url):
     filtered_words = [w for w in word_list if not w in nltk.corpus.stopwords.words('english')]
     return dict((word,True) for word in word_list)
 
-if __name__ == '__main__':
+def update():
+    """Update articles from all feeds"""
     print 'Starting to get Feeds'
     for feed in Feed.objects.all():
         print '\nProcessing ' + feed.name + ' '
