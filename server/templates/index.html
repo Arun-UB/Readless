@@ -54,7 +54,7 @@
                         </a>
 
                         <form class="navbar-search " id="navSearch">
-                            <input type="text" class="search-query" placeholder="Search">
+                            <input type="text" ng-model="searchText" class="search-query" placeholder="Search">
                         </form>
                         <ul class="nav pull-right">
 
@@ -73,11 +73,11 @@
 
 
         </header>
-        <div class="container alert {{alertClass}} fade in" >
+        <!--<div class="container alert {{alertClass}} fade in" >
             <button type="button" class="close" data-dismiss="alert">×</button>
             <span ng-bind="msg"></span>
         </div>
-
+-->
         <div id="content" class="container">
 
             <div class="row">
@@ -167,7 +167,7 @@
                     </div>-->
                     <div id="main" >
                          <ul class="slats unstyled">
-  <li ng-repeat="article in articles" class="group">
+  <li ng-repeat="article in articles | filter:searchText | orderBy:feed.time_stamp " class="group">
     <h3><a ng-click="read(article.article_id,1)" href="{{article.source_link}}" target="_blank"><span ng-bind="article.title"></span></a></h3>
     
        <p ng-bind="article.content_snippet">  </p>
