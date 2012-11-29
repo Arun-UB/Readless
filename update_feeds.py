@@ -19,11 +19,11 @@ def get_words_in_title(title):
     filtered_words = [w for w in word_list if not w in nltk.corpus.stopwords.words('english')]
     return dict((word,True) for word in filtered_words)
 
-def get_score(classifier_string, article_features):
+def get_score(classifier_object, article_features):
     "Use the trained classifier to find the interest for the new article"
-    if classifier_string is None:
+    if classifier_object is None:
         return 0.5
-    classifier = pickle.loads(classifier_string)
+    classifier = pickle.loads(classifier_object)
     if classifier.classify(get_words_in_title(article_features.title)) is True:
         return 1
     else:
@@ -36,13 +36,13 @@ def get_readers_from(feed_id, article_features, feed_subscribers):
     '''
     subscribers = []
     for feed_subscriber in feed_subscribers:
-        classifier_string = None
+        classifier_object = None
         for subscription in feed_subscriber.subscriptions:
             if subscription.feed_id is feed_id:
-                classifier_string = subscription.classifier_object
+                classifier_object = subscription.classifier_object
         new_reader = Reader(\
                 user_id = feed_subscriber.id \
-                , score = get_score(classifier_string,article_features)
+                , score = get_score(classifier_object,article_features)
                 )   #Set the scores for each user who has not yet read the article
         subscribers.append(new_reader)
     return subscribers
