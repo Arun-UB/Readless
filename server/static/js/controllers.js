@@ -7,7 +7,7 @@ function SubscribeCtrl($scope,$http,$log){
 	$scope.getUserInfo=function(){
 	 	$scope.url='/getUserInfo';
 	 	$http.get($scope.url).success(function(data,status){
-	 		console.log(data);
+	 		//console.log(data);
 	 		$scope.uName=data.name.trim();
 	 		$scope.disp_feed_name={};
 	 		$scope.uCount={};

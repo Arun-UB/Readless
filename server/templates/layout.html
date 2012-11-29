@@ -4,6 +4,9 @@
 
 
 <link rel="stylesheet" type="text/css" href="{[ url_for('static', filename='css/readless.css')]}">
+<script>window.jQuery || document.write('<script src="static/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+<script src="{[ url_for('static', filename='../static/js/bootstrap.min.js')]}"></script>
+
 <style type="text/css">
 #main{
   margin-top: 60px;
@@ -20,7 +23,11 @@
   {% endif %}
   </div>
   {% for message in get_flashed_messages() %}
-    <div class=flash>{[ message ]}</div>
+    
+    <div class="span4 alert alert-info fade in" >
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <span>{[ message ]}</span>
+          </div>
   {% endfor %}
   {% block body %}{% endblock %}
 </div>

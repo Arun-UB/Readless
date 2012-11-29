@@ -73,10 +73,11 @@
 
 
         </header>
-<!--<div class="container alert {{alertClass}} fade in" >
+        <div class="container alert {{alertClass}} fade in" >
             <button type="button" class="close" data-dismiss="alert">×</button>
-            <strong>Holy guacamole!</strong> {{msg}}
-          </div>-->
+            <span ng-bind="msg"></span>
+        </div>
+
         <div id="content" class="container">
 
             <div class="row">
@@ -107,7 +108,7 @@
                         <strong>Subscriptions</strong>
                         <div id="sub-list">
                             <ul ng-cloak class="unstyled">
-                                <li   ng-click="loadFeeds(feed.feed_id,feed.feed_name,feed.site_url)" ng-repeat="feed in feeds" class="src"><span class="fav"><img ng-src="https://www.google.com/s2/favicons?domain={{feed.site_url}}&alt=feed"/></span><span ng-bind="feed.feed_name"></span><span ng-bind="uCount[feed.feed_id]" class="badge ">
+                                <li ng-click="loadFeeds(feed.feed_id,feed.feed_name,feed.site_url)" ng-repeat="feed in feeds" class="src"><span class="fav"><img ng-src="https://www.google.com/s2/favicons?domain={{feed.site_url}}&alt=feed"/></span><span ng-bind="feed.feed_name"></span><span ng-bind="uCount[feed.feed_id]" class="badge ">
 
                                 </li>
                             </ul>
@@ -137,7 +138,7 @@
                               </div>
                     </div>
 
-                    <div id="options" class="pull-right">
+                    <!--<div id="options" class="pull-right">
                     
                         <div class="btn-group ">
                             <button class="btn">Mark all as read</button>
@@ -163,7 +164,7 @@
                                 <li><a href="#">Oldest</a></li>
                             </ul>
                         </div>
-                    </div>
+                    </div>-->
                     <div id="main" >
                          <ul class="slats unstyled">
   <li ng-repeat="article in articles" class="group">

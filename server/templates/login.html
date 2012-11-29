@@ -2,6 +2,9 @@
 {% block body %}
 
 <link rel="stylesheet" type="text/css" href="{[ url_for('static', filename='../static/css/signin.css')]}">
+<script>window.jQuery || document.write('<script src="static/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+<script src="{[ url_for('static', filename='../static/js/bootstrap.min.js')]}"></script>
+ 
 
   <header>
 
@@ -25,9 +28,14 @@
 
 
         </header>
-  {% if error %}<p class=error><strong>Error:</strong> {[ error ]}{% endif %}
-
+ 
     <div class="container">
+ {% if error %} 
+<div class="container">
+  <div class="span5 offset3 alert alert-info fade in" >
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <span>{[ error ]}</span>
+          </div> </div>{% endif %}
 
         <form action="{[ url_for('signin') ]}" class="form-signin" method=post>
         <h3 class="form-signin-heading">Sign in</h3>

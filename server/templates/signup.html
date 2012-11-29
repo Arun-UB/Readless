@@ -21,7 +21,11 @@
                 </div>
             </div>
 
-  {% if error %}<p class=error><strong>Error:</strong> {[ error ]}{% endif %}
+  {% if error %}<div class="container">
+  <div class="span5 offset3 alert alert-info fade in" >
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <span>{[ error ]}</span>
+          </div> </div>{% endif %}
   
    <div class="container">
 
