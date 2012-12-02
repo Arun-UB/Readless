@@ -167,7 +167,7 @@
                     </div>-->
                     <div id="main" >
                          <ul class="slats unstyled">
-  <li ng-repeat="article in articles | filter:searchText | orderBy:feed.time_stamp " class="group">
+  <li ng-repeat="article in articles | filter:searchText | orderBy:feed.time_stamp:reverse " class="group">
     <h3><a ng-click="read(article.article_id,1)" href="{{article.source_link}}" target="_blank"><span ng-bind="article.title"></span></a></h3>
     
        <p ng-bind="article.content_snippet">  </p>
