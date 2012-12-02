@@ -38,7 +38,7 @@ def get_readers_from(feed_id, article_features, feed_subscribers):
     for feed_subscriber in feed_subscribers:
         classifier_object = None
         for subscription in feed_subscriber.subscriptions:
-            if subscription.feed_id is feed_id:
+            if subscription.feed_id == feed_id:
                 classifier_object = subscription.classifier_object
         new_reader = Reader(\
                 user_id = feed_subscriber.id \
