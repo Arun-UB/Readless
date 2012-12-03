@@ -29,7 +29,7 @@ class Feed(db.Document):
             feed = Feed.objects.get(rss_url = rssUrl)
         except DoesNotExist:
             rss_dict = feedparser.parse(rssUrl)
-            if rss_dict.version is '':
+            if rss_dict.version == '':
                 raise NotAFeed('the given url was not a recognized feed format')
             new_feed = Feed(\
                             #get title from rss feed(or atom feed)
