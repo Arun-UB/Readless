@@ -23,6 +23,7 @@ class Article(db.Document):
     interested_users = db.ListField(db.ObjectIdField())
     uninterested_users = db.ListField(db.ObjectIdField())
     time_stamp = db.DateTimeField(default = datetime.datetime.now())
+
     def get_words_in_article(self):
         '''Arguments : URL
            Function: Gets the article only version of the URL using Instapaper.
@@ -49,19 +50,18 @@ class Article(db.Document):
             if len(wd) > 1 : word_list.append(wd)
         filtered_words = [w for w in word_list if not w in nltk.corpus.stopwords.words('english')]
         return dict((word,True) for word in filtered_words)
-    def get_score(classifier_object, article_features):
-    "Use the trained classifier to find the interest for the new article"
-    if classifier_object is None:
-        return 0.5
-    classifier = pickle.loads(classifier_object)
-    if classifier.classify(get_words_in_title(article_features.title)) is True:
-        return 1
-    else:
-        return 0
 
+    def get_score(self,classifier_object, article_features):
+        "Use the trained classifier to find the interest for the new article"
+        if classifier_object is None:
+            return 0.5
+        classifier = pickle.loads(classifier_object)
+        if classifier.classify(get_words_in_title(article_features.title)) is True:
+            return 1
+        else:
+            return 0
 
-
-    def get_article_snippet(article, char_length = 128):
+    def get_article_snippet(self,article, char_length = 128):
         '''
         Returns the article snippet to be show next to the article title.
         '''
@@ -73,12 +73,3 @@ class Article(db.Document):
                 return words + '...' 
             else:
                 return words[:char_length] + '...'
-
-
-
-    def update():
-        """Update articles from all feeds"""
-        print 'Starting to get Feeds'
-        for feed in Feed.objects.all():
-            print '\nProcessing ' + feed.name + ' '
-            save_new_articles_from_feed(feed)
