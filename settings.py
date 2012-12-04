@@ -1,5 +1,6 @@
 # unified settings file
 import os
+import urlparse
 class Config(object):
     SECRET_KEY = os.environ['SECRET_KEY']
     MONGODB_USERNAME = os.environ.get('MONGO_DB_USERNAME')#only set if exists, else None
@@ -16,3 +17,12 @@ class DevConfig(Config):
 class ProdConfig(Config):
 #empty until we get a production environment
     DEBUG = False
+    def __init__:
+        mongolab_uri = environ.get('MONGODB_URI')
+        if mongolab_uri:
+                url = urlparse.urlparse(mongolab_uri)
+               self.MONGODB_USERNAME = url.username 
+               self.MONGODB_PASSWORD = url.password 
+               self.MONGODB_HOST = url.hostname
+               self.MONGODB_PORT = url.port
+               self.MONGODB_DB = url.path[1:]
