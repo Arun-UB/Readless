@@ -45,7 +45,7 @@ class Feed(db.Document):
             feed = new_feed
         return feed
 
-    def get_readers_from(feed_id, article_features, feed_subscribers):
+    def get_readers_from(self,feed_id, article_features, feed_subscribers):
         '''
         creates a list of reader objects for an article 
         from a list of feed subscribers
@@ -63,7 +63,7 @@ class Feed(db.Document):
             subscribers.append(new_reader)
         return subscribers
 
-    def save_new_articles_from_feed(feed):
+    def save_new_articles_from_feed(self,feed):
         '''save new articles from the given feed(represented by a feed object)'''
         parsed_feed = feedparser.parse(feed.rss_url)
         if parsed_feed.bozo is 1:
@@ -77,28 +77,28 @@ class Feed(db.Document):
             
             new_article = Article(\
                     source_url = entry.link\
-                    #, features = article_features\
                     , feed_id = feed.id\
                     , time_stamp = parse(entry.published)\
                     , readers = get_readers_from(feed.id, article_features, feed_subscribers)\
                     )
             article_features = Features(\
                       title = entry.title\
-                    , article_words = get_words_in_article()
-                    , content_snippet = get_article_snippet(entry.description,128)\
+                    , article_words = new_article.get_words_in_article()
+                    , content_snippet = new_article.get_article_snippet(entry.description,128)\
                     )
+            new_article.features = article_features
             try:
                 new_article.save()
                 print '.',
             except db.NotUniqueError:
                 #we have already retrieved this article, so do nothing
                 pass
-        def update():
+        def update(self):
             """Update articles from all feeds"""
             print 'Starting to get Feeds'
             for feed in Feed.objects.all():
                 print '\nProcessing ' + feed.name + ' '
-                save_new_articles_from_feed(feed)
+                self.save_new_articles_from_feed(feed)
 
 class NotAFeed(Exception):
     '''Thrown if attempt is made to create a feed object from a non-feed url'''
