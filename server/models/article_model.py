@@ -9,6 +9,7 @@ import pickle
 class Features(db.EmbeddedDocument):
     '''An embedded document that represents the features of an article'''
     title = db.StringField(required = True)
+    article_words = db.ListField()
     content_snippet = db.StringField()
 
 class Reader(db.EmbeddedDocument):
@@ -40,13 +41,11 @@ class Article(db.Document):
             "http://www.instapaper.com/m?%s" % urllib.urlencode({'u':self.source_url})).read())
         html_data = html_data.find("body")
 
-
-        #setting text to True to extract only the text in the <body>
-        content = html_data.findAll(text=True)
+        content = html_data.findAll(text=True)  #setting text to True to extract only the text in the <body>
 
         word_list = []
-        for word in content[30:]:#Removing redundant content from Instapaper Mobilizer headers
-            for w in word.split(" "):               #splitting on spcae for multiword strings
+        for word in content[30:]:               #Removing redundant content from Instapaper Mobilizer headers
+            for w in word.split(" "):           #splitting on spcae for multiword strings
                 wd = (multiword_string_pattern.sub('',w.lower()))    #substituing non alphanumeric characters with ''
                 if len(wd) > 1 : word_list.append(wd)#exclude strings of less than 2 characters
         filtered_words = [w for w in word_list if not w in nltk.corpus.stopwords.words('english')]

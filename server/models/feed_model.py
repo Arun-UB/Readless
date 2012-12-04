@@ -63,13 +63,13 @@ class Feed(db.Document):
             subscribers.append(new_reader)
         return subscribers
 
-    def save_new_articles_from_feed(self,feed):
-        '''save new articles from the given feed(represented by a feed object)'''
-        parsed_feed = feedparser.parse(feed.rss_url)
+    def update_articles(self):
+        '''Update articles for the Feed'''
+        parsed_feed = feedparser.parse(self.rss_url)
         if parsed_feed.bozo is 1:
             #there were errors parsing the feed
             print 'Illformed XML detected for '\
-                    + feed.name +'('+ feed.site_url +') at '+ feed.rss_url
+                    + feed.name +'('+ feed.site_url +') at '+ self.rss_url
             return
         feed_subscribers = User.objects(subscriptions__feed_id = feed.id)
         for entry in parsed_feed.entries:
@@ -93,12 +93,6 @@ class Feed(db.Document):
             except db.NotUniqueError:
                 #we have already retrieved this article, so do nothing
                 pass
-    def update(self):
-        """Update articles from all feeds"""
-        print 'Starting to get Feeds'
-        for feed in Feed.objects.all():
-            print '\nProcessing ' + feed.name + ' '
-            self.save_new_articles_from_feed(feed)
 
 class NotAFeed(Exception):
     '''Thrown if attempt is made to create a feed object from a non-feed url'''
