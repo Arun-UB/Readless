@@ -16,7 +16,6 @@ app.jinja_env.variable_start_string = '{['
 app.jinja_env.variable_end_string = ']}'
 
 #set the correct configuration
-app.config.from_object('settings.TestConfig')#default
 if os.environ.get('ENV')=='dev':
   #we are running the development server
   app.config.from_object('settings.DevConfig')
