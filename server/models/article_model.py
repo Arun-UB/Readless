@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from server import db
+from . import User
 import datetime
 import urllib
 import re
@@ -9,7 +10,7 @@ import pickle
 class Features(db.EmbeddedDocument):
     '''An embedded document that represents the features of an article'''
     title = db.StringField(required = True)
-    article_words = db.ListField()
+    article_words = db.DictField()
     content_snippet = db.StringField()
 
 class Reader(db.EmbeddedDocument):

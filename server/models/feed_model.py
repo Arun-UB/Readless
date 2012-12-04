@@ -70,7 +70,7 @@ class Feed(db.Document):
                     , content_snippet = new_article.get_article_snippet(entry.description,128)\
                     )
             new_article.features = article_features
-            new_article.readers = self.get_readers_from(self.id, article_features, feed_subscribers)
+            new_article.readers = new_article.get_readers_from()
             try:
                 new_article.save()
                 print '.',
