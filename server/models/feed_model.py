@@ -5,6 +5,8 @@ import datetime
 import urllib
 import pickle
 from dateutil.parser import parse
+from . import User, Article, Features, Reader
+
 
 class Feed(db.Document):
     '''A document that represents the feeds we are keeping track of'''
@@ -58,7 +60,7 @@ class Feed(db.Document):
                     classifier_object = subscription.classifier_object
             new_reader = Reader(\
                     user_id = feed_subscriber.id \
-                    , score = get_score(classifier_object,article_features)
+                    , score = Article.get_score(classifier_object)
                     )   #Set the scores for each user who has not yet read the article
             subscribers.append(new_reader)
         return subscribers
@@ -71,15 +73,14 @@ class Feed(db.Document):
             print 'Illformed XML detected for '\
                     + feed.name +'('+ feed.site_url +') at '+ self.rss_url
             return
-        feed_subscribers = User.objects(subscriptions__feed_id = feed.id)
+        feed_subscribers = User.objects(subscriptions__feed_id = self.id)
         for entry in parsed_feed.entries:
             #create new article object for this entry and save it
             
             new_article = Article(\
                     source_url = entry.link\
-                    , feed_id = feed.id\
+                    , feed_id = self.id\
                     , time_stamp = parse(entry.published)\
-                    , readers = get_readers_from(feed.id, article_features, feed_subscribers)\
                     )
             article_features = Features(\
                       title = entry.title\
@@ -87,6 +88,7 @@ class Feed(db.Document):
                     , content_snippet = new_article.get_article_snippet(entry.description,128)\
                     )
             new_article.features = article_features
+            new_article.readers = self.get_readers_from(self.id, article_features, feed_subscribers)
             try:
                 new_article.save()
                 print '.',
