@@ -47,24 +47,6 @@ class Feed(db.Document):
             feed = new_feed
         return feed
 
-    def get_readers_from(self,feed_id, article_features, feed_subscribers):
-        '''
-        creates a list of reader objects for an article 
-        from a list of feed subscribers
-        '''
-        subscribers = []
-        for feed_subscriber in feed_subscribers:
-            classifier_object = None
-            for subscription in feed_subscriber.subscriptions:
-                if subscription.feed_id == feed_id:
-                    classifier_object = subscription.classifier_object
-            new_reader = Reader(\
-                    user_id = feed_subscriber.id \
-                    , score = Article.get_score(classifier_object)
-                    )   #Set the scores for each user who has not yet read the article
-            subscribers.append(new_reader)
-        return subscribers
-
     def update_articles(self):
         '''Update articles for the Feed'''
         parsed_feed = feedparser.parse(self.rss_url)
@@ -88,7 +70,7 @@ class Feed(db.Document):
                     , content_snippet = new_article.get_article_snippet(entry.description,128)\
                     )
             new_article.features = article_features
-            new_article.readers = self.get_readers_from(self.id, article_features, feed_subscribers)
+            new_article.readers = new_article.get_readers_from()
             try:
                 new_article.save()
                 print '.',

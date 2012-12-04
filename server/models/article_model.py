@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from server import db
+from . import User
 import datetime
 import urllib
 import re
@@ -9,7 +10,7 @@ import pickle
 class Features(db.EmbeddedDocument):
     '''An embedded document that represents the features of an article'''
     title = db.StringField(required = True)
-    article_words = db.ListField()
+    article_words = db.DictField()
     content_snippet = db.StringField()
 
 class Reader(db.EmbeddedDocument):
@@ -69,6 +70,25 @@ class Article(db.Document):
             return 1
         else:
             return 0
+
+    def get_readers_from(self):
+        '''
+        creates a list of reader objects for an article 
+        from a list of feed subscribers
+        '''
+        subscribers = []
+        feed_subscribers = User.objects(subscriptions__feed_id = self.feed_id)
+        for feed_subscriber in feed_subscribers:
+            classifier_object = None
+            for subscription in feed_subscriber.subscriptions:
+                if subscription.feed_id == self.feed_id:
+                    classifier_object = subscription.classifier_object
+            new_reader = Reader(\
+                    user_id = feed_subscriber.id \
+                    , score = self.get_score(classifier_object)
+                    )   #Set the scores for each user who has not yet read the article
+            subscribers.append(new_reader)
+        return subscribers
 
     def get_article_snippet(self,article, max_length = 128):
         '''
