@@ -93,12 +93,12 @@ class Feed(db.Document):
             except db.NotUniqueError:
                 #we have already retrieved this article, so do nothing
                 pass
-        def update(self):
-            """Update articles from all feeds"""
-            print 'Starting to get Feeds'
-            for feed in Feed.objects.all():
-                print '\nProcessing ' + feed.name + ' '
-                self.save_new_articles_from_feed(feed)
+    def update(self):
+        """Update articles from all feeds"""
+        print 'Starting to get Feeds'
+        for feed in Feed.objects.all():
+            print '\nProcessing ' + feed.name + ' '
+            self.save_new_articles_from_feed(feed)
 
 class NotAFeed(Exception):
     '''Thrown if attempt is made to create a feed object from a non-feed url'''
