@@ -50,6 +50,7 @@ function SubscribeCtrl($scope,$http,$log){
 	 		if(data.status=="Success"){
 	 			
 	 			$scope.getUserInfo();
+	 			$scope.SubscribeKwd=null;
 	 		}
 	 		else{
 	 			$scope.msg="There was an error,try again"
