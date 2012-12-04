@@ -58,7 +58,7 @@ class Article(db.Document):
         for w in self.features.title.split(" "):
             wd = (multiword_string_pattern.sub('',w.lower()))    
             if len(wd) > 1 : word_list.append(wd)
-        filtered_words = [w for w in word_list if not w in nltk.corpus.stopwords.words('english')]
+        filtered_words = [w for w in word_list if w not in nltk.corpus.stopwords.words('english')]
         return dict((word,True) for word in filtered_words)
 
     def get_score(self,classifier_object):
