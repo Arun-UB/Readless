@@ -27,7 +27,7 @@ def train():
     words = {}
     
     for user in User.objects.all():
-        print 'Training for User ' + user,
+        print 'Training for User ' + str(user.id),
         for subscription in user.subscriptions:
             interested_titles_list = []
             unlabled_titles_list = []
@@ -37,6 +37,7 @@ def train():
             for article in Article.objects(uninterested_users = user.id, feed_id = subscription.feed_id):
                     unlabled_titles_list.append(article.features.title)
             words = map(get_words_in_title,interested_titles_list)
+            print interested_titles_list
             classifier = PositiveNaiveBayesClassifier.train(words,map(get_words_in_title,unlabled_titles_list)) 
             subscription.classifier_object = pickle.dumps(classifier)
         try: 
@@ -44,3 +45,6 @@ def train():
         except Exception as e:
             print 'Failed: %s' % e
         print 'Classifier Saved'
+
+if __name__ == '__main__':
+    train()

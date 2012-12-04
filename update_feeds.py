@@ -1,16 +1,11 @@
-from bs4 import BeautifulSoup
+from server import Feed
 
-import re, argparse, sys
-import nltk
-import feedparser
-
-from server import Article, Feed, Reader, User, Features, db
-
-import re
-
-pattern = re.compile('[\W_ ]+')
-
-
+def update():
+    """Update articles from all feeds"""
+    print 'Starting to get Feeds'
+    for feed in Feed.objects.all():
+        print '\nProcessing ' + feed.name + ' '
+        feed.update_articles()
 
 if __name__ == '__main__':
-    update()
+	update()
