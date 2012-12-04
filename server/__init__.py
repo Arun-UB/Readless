@@ -21,6 +21,10 @@ if os.environ.get('ENV')=='dev':
   #we are running the development server
   app.config.from_object('settings.DevConfig')
 
+if os.environ.get('ENV')=='pro':
+  #we are running the development server
+  app.config.from_object('settings.ProdConfig')
+
 #create the db connection
 db = MongoEngine(app)
 
