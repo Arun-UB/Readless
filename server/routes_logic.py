@@ -129,7 +129,11 @@ def subscribe(rss_url):
     number_of_items_affected = User.objects(id = current_user.id).update_one(add_to_set__subscriptions = new_subscription)
     new_reader = Reader(user_id = current_user.id)
     #atomically add current user to readers of all articles in subscribed feed
-    Article.objects(feed_id = feed.id).update(add_to_set__readers = new_reader)
+    feed_articles = Article.objects(feed_id = feed.id)
+    if feed_articles.count() == 0:
+        feed.update_articles()
+        feed_articles = Article.objects(feed_id = feed.id)
+    feed_articles.update(add_to_set__readers = new_reader)
     if number_of_items_affected is 1:
         return jsonify(dict(status = 'Success'))
     else:
