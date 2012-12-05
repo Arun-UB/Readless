@@ -4,12 +4,17 @@
 from flask import Flask, g
 from flask.ext.mongoengine import MongoEngine
 from flask.ext.login import LoginManager
+from flask.ext.sslify import SSLify
 import os
 import logging
 from logging import FileHandler
 
 #create the application
 app = Flask(__name__)
+
+# sslify the app, optional
+if os.environ.get('FORCE_SSL', 'False') == 'True':
+    sslify = SSLify(app)
 
 # overriding default jinja template tags, to avoid conflicts with angularjs
 app.jinja_env.variable_start_string = '{['
