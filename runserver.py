@@ -8,7 +8,9 @@ if __name__ == '__main__':
     env = os.environ.get('ENV')
     if env == 'pro':
         http_server = HTTPServer(WSGIContainer(app))
-        http_server.listen(5000)
+        # Bind to PORT if defined, otherwise default to 5000.
+        port = int(os.environ.get('PORT', 5000))
+        http_server.listen(port)
         IOLoop.instance().start()
     else:
         app.run()
