@@ -65,7 +65,7 @@ class Article(db.Document):
         "Use the trained classifier to find the interest for the new article"
         if classifier_object is None:
             return 0.5
-        classifier = pickle.loads(classifier_object)
+        classifier = pickle.loads(str(classifier_object))
         if classifier.classify(self.get_words_in_title()) is True:
             return 1
         else:
