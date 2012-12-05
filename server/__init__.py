@@ -13,7 +13,7 @@ from logging import FileHandler
 app = Flask(__name__)
 
 # sslify the app, optional
-if os.environ.get('FORCE_SSL', False) == True:
+if os.environ.get('FORCE_SSL', 'False') == 'True':
     sslify = SSLify(app)
 
 # overriding default jinja template tags, to avoid conflicts with angularjs
