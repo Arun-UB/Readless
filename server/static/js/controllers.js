@@ -37,11 +37,13 @@ function SubscribeCtrl($scope,$http,$log,$compile){
 	 		$log.info($scope.feeds.length)
 	 		if($scope.feeds.length>0){
 	 			$scope.loadFeeds($scope.feeds[0].feed_id,$scope.feeds[0].feed_name,$scope.feeds[0].site_url);
-	 			$scope.empty="";
+	 			$scope.emptySub="";;
+	 			$scope.emptySub2="";
 	 		}
 	 			
 	 		else{
-	 			$scope.empty="No subscriptions here";
+	 			$scope.emptySub="No subscriptions here";
+	 			$scope.emptySub2="Subscribe to some feeds to see articles here."
 	 		}
 	 		
 	 	}
@@ -168,6 +170,11 @@ function SubscribeCtrl($scope,$http,$log,$compile){
 			setTimeout(function(){
 				$(".close").click();
 			},5000);		
+	}
+
+	$scope.curOrder=function(i){
+		$("ul li > a > i").removeClass('icon-ok');
+		$("ul li:nth-child("+i+") > a > i").addClass('icon-ok');
 	}
 		
 

@@ -105,7 +105,7 @@
                         <i class="icon-list"></i>
                         <strong>Subscriptions</strong>
                         <div id="sub-list">
-                          <span id="empty" ng-bind="empty"></span>
+                          <span id="empty" ng-bind="emptySub"></span>
                             <ul ng-cloak class="unstyled">
                                 <li ng-click="loadFeeds(feed.feed_id,feed.feed_name,feed.site_url)" ng-repeat="feed in feeds" class="src"><span class="fav"><img ng-src="https://www.google.com/s2/favicons?domain={{feed.site_url}}&alt=feed"/></span><span ng-bind="feed.feed_name"></span><span ng-bind="uCount[feed.feed_id]" class="badge ">
 
@@ -138,7 +138,7 @@
                     </div>
 
                     <div id="options" class="pull-right">
-                     <input type="text" ng-model="searchText" class="search-query" placeholder="Search">
+                     <input type="text" ng-hide="hide" ng-model="searchText" class="search-query" placeholder="Search">
                       <!--  <div class="btn-group ">
                             <button class="btn">Mark all as read</button>
                             <button class="btn dropdown-toggle" data-toggle="dropdown">
@@ -152,19 +152,26 @@
 
                             </ul>
                         </div>-->
-                        <div class="btn-group">
+                        <div class="btn-group" ng-hide="hide">
                             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                                 Sort by
                                 <span class="caret"></span>
                             </a>
-                            <ul ng-init="order='score';reverse=true;loading={visibility:'hidden'}" class="dropdown-menu">
-                                <li><a ng-click=" order='score';reverse= true" href="#">Relevance</a></li>
-                                <li><a ng-click=" order='time_stamp';reverse= true" href="#">Newest</a></li>
-                                <li><a ng-click=" order='time_stamp';reverse= false" href="#">Oldest</a></li>
+                            <ul ng-init="order='score';curOrder(1);reverse=true;loading={visibility:'hidden'}" class="dropdown-menu">
+                                <li><a ng-click=" order='score';reverse= true;curOrder(1)" href="#"><i></i>Relevance</a></li>
+                                <li><a ng-click=" order='time_stamp';reverse= true;curOrder(2)" href="#"><i></i>Newest</a></li>
+                                <li><a ng-click=" order='time_stamp';reverse= false;curOrder(3)" href="#"><i></i>Oldest</a></li>
                             </ul>
                         </div>
                     </div>
                     <div id="main" >
+                       <span  class='span6' ng-bind='emptySub2' id="empty" >
+                         <!--  <h4>Subscribe to some feeds to see articles here. Add these to get started:</h4>
+                          <ul class='unstyled'>
+                            <li><span class="fav"><img ng-src="https://www.google.com/s2/favicons?domain=www.theverge.com&alt=feed"/></span><a href="http://theverge.com/" target='_blank'>The Verge</a><button class="btn btn-success">Add</button></li>
+                            <li><span class="fav"><img ng-src="https://www.google.com/s2/favicons?domain=www.techcrunch.com&alt=feed"/></span><a href="http://techcrunch.com/" target='_blank'>TechCrunch</a></li>
+                          </ul> -->
+                       </span>
                          <ul class="slats unstyled">
                           
   <li ng-repeat="article in articles | filter:searchText | orderBy:order:reverse" class="group">
