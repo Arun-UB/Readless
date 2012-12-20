@@ -74,7 +74,6 @@ class Feed(db.Document):
                     )
             article_features = Features(\
                     title = entry.title\
-                    , article_words = new_article.get_words_in_article()
                     , content_snippet = new_article.get_article_snippet(entry.description,128)\
                     )
             new_article.features = article_features
