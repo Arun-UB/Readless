@@ -55,17 +55,25 @@ class Feed(db.Document):
             print 'Illformed XML detected for '\
                     + feed.name +'('+ feed.site_url +') at '+ self.rss_url
             return
-        feed_subscribers = User.objects(subscriptions__feed_id = self.id)
+        if self.last_new_article != None:
+            #last_new_article exists
+            last_link_from_previous_run = self.last_new_article.source_url
+        else:
+            last_link_from_previous_run = None
         for entry in parsed_feed.entries:
-            #create new article object for this entry and save it
-            
+            #create new article object for this entry and save it,
+            #if it's not  the last new article
+            if entry.link == last_link_from_previous_run:
+                #we have this article already
+                print "found last_link_from_previous_run"
+                break
             new_article = Article(\
                     source_url = entry.link\
                     , feed_id = self.id\
                     , time_stamp = parse(entry.published)\
                     )
             article_features = Features(\
-                      title = entry.title\
+                    title = entry.title\
                     , article_words = new_article.get_words_in_article()
                     , content_snippet = new_article.get_article_snippet(entry.description,128)\
                     )
@@ -73,10 +81,17 @@ class Feed(db.Document):
             new_article.readers = new_article.get_readers_from()
             try:
                 new_article.save()
-                print '.',
+                self.last_new_article = new_article
+                print '+',
+            except db.ValidationError as e:
+                print 'Validation error occured'
+                if e.errors.get('source_url'):
+                    print new_article.source_url+" may be broken."
             except db.NotUniqueError:
                 #we have already retrieved this article, so do nothing
-                pass
+                print '.'
+        #save to keep track of the last new article, so no need to validate
+        self.save(validate = False)
 
 class NotAFeed(Exception):
     '''Thrown if attempt is made to create a feed object from a non-feed url'''
