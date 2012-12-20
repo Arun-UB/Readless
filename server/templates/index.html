@@ -132,7 +132,7 @@
 
                               <div class="modal-footer">
                             
-                                <button class="btn btn-danger" ng-click="unsubscribe(cur_feed_id)">Yes</button>
+                                <button class="btn btn-danger" ng-click="unsubscribe(cur_feed_id);loading={}">Yes</button>
                                   <button class="btn " data-dismiss="modal">Cancel</button>
                                 
                               </div>
@@ -158,8 +158,8 @@
                                 Sort by
                                 <span class="caret"></span>
                             </a>
-                            <ul ng-init="order='score';reverse=true" class="dropdown-menu">
-                                <li><a ng-click=" order='score';reverse= true" href="#">Score</a></li>
+                            <ul ng-init="order='score';reverse=true;loading={visibility:'hidden'}" class="dropdown-menu">
+                                <li><a ng-click=" order='score';reverse= true" href="#">Relevance</a></li>
                                 <li><a ng-click=" order='time_stamp';reverse= true" href="#">Newest</a></li>
                                 <li><a ng-click=" order='time_stamp';reverse= false" href="#">Oldest</a></li>
                             </ul>
@@ -167,7 +167,9 @@
                     </div>
                     <div id="main" >
                          <ul class="slats unstyled">
+                           <img ng-style="loading" src="../static/img/ajax-loader.gif">
   <li ng-repeat="article in articles | filter:searchText | orderBy:order:reverse" class="group">
+
     <h3><a ng-click="read(article.article_id,1)" href="{{article.source_link}}" target="_blank"><span ng-bind="article.title"></span></a></h3>
     
        <p ng-bind="article.content_snippet">  </p>
