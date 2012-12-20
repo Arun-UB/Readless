@@ -173,13 +173,14 @@
                         </div>
                     </div>
                     <div id="main" >
-                       <span  class='span6' ng-bind='emptySub2' id="empty" >
+                       <span  class='span6' ng-bind='emptySub2' >
                          <!--  <h4>Subscribe to some feeds to see articles here. Add these to get started:</h4>
                           <ul class='unstyled'>
                             <li><span class="fav"><img ng-src="https://www.google.com/s2/favicons?domain=www.theverge.com&alt=feed"/></span><a href="http://theverge.com/" target='_blank'>The Verge</a><button class="btn btn-success">Add</button></li>
                             <li><span class="fav"><img ng-src="https://www.google.com/s2/favicons?domain=www.techcrunch.com&alt=feed"/></span><a href="http://techcrunch.com/" target='_blank'>TechCrunch</a></li>
                           </ul> -->
                        </span>
+                       <span class='span6' ng-bind='noFeeds' ></span>
                          <ul class="slats unstyled">
                           
   <li ng-repeat="article in articles | filter:searchText | orderBy:order:reverse" class="group">

@@ -89,13 +89,19 @@ function SubscribeCtrl($scope,$http,$log,$compile){
 	 		$scope.cur_feed_name=$scope.disp_feed_name[feed_id];
 	 		$scope.cur_site_url=site_url;
 	 		$scope.articles=data.articles;
+	 		$scope.uCount[$scope.cur_feed_id]=$scope.articles.length;
 	 		$scope.hide=false;
+	 		if($scope.articles.length==0)
+	 			$scope.noFeeds="No new feeds avialble";
+	 		else
+	 			$scope.noFeeds="";
 	 			//console.log($scope.cur_site_url);
 	 			//console.log($scope.articles.length);
 
 
 	 		
 	 	}
+
 	 	);
 	}
 
