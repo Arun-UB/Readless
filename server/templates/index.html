@@ -73,11 +73,9 @@
 
 
         </header>
-        <!--<div class="container alert {{alertClass}} fade in" >
-            <button type="button" class="close" data-dismiss="alert">×</button>
-            <span ng-bind="msg"></span>
+        <div id="msg">
+        
         </div>
--->
         <div id="content" class="container">
 
             <div class="row">
@@ -167,7 +165,7 @@
                     </div>
                     <div id="main" >
                          <ul class="slats unstyled">
-                           <img ng-style="loading" src="../static/img/ajax-loader.gif">
+                          
   <li ng-repeat="article in articles | filter:searchText | orderBy:order:reverse" class="group">
 
     <h3><a ng-click="read(article.article_id,1)" href="{{article.source_link}}" target="_blank"><span ng-bind="article.title"></span></a></h3>

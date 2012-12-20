@@ -1,7 +1,7 @@
 'use strict';
 
 /* Controllers */
-function SubscribeCtrl($scope,$http,$log){
+function SubscribeCtrl($scope,$http,$log,$compile){
 	
 	
 	$scope.getUserInfo=function(){
@@ -46,14 +46,19 @@ function SubscribeCtrl($scope,$http,$log){
 	 	console.log($scope.url)
 	 	$(".close").click();
 	 	$http.get($scope.url).success(function(data,status){
-	 		console.log(data.status);
+	 		
 	 		if(data.status=="Success"){
 	 			
 	 			$scope.getUserInfo();
 	 			$scope.SubscribeKwd=null;
+	 			$scope.alertClass='success';
+	 			$scope.msg="Successfully added to your subscription list.";
+	 			$scope.msgDisp();
 	 		}
 	 		else{
-	 			$scope.msg="There was an error,try again"
+	 			$scope.msg="There was an error,try again";
+	 			$scope.alertClass='error';
+	 			$scope.msgDisp();
 	 		}
 	 	}
 
@@ -65,6 +70,7 @@ function SubscribeCtrl($scope,$http,$log){
 		$scope.url='getUnreadArticles/'+feed_id;
 		
 		$http.get($scope.url).success(function(data,status){
+
 	 		$scope.cur_feed_id=feed_id;
 	 		$scope.cur_feed_name=$scope.disp_feed_name[feed_id];
 	 		$scope.cur_site_url=site_url;
@@ -84,19 +90,35 @@ function SubscribeCtrl($scope,$http,$log){
 		$(".close").click();
 		$scope.url='unsubscribe/'+feed_id;
 			$http.get($scope.url).success(function(data,status){
-	 		$log.info(data);
-	 		$scope.getUserInfo();
-	 		$scope.articles={};
-	 		$scope.cur_feed_id=null;
-	 		$scope.cur_feed_name=null;
-	 		$scope.cur_site_url=null;
-	 		$scope.hide=true;
-	 		
+				if(data.status=="Success"){
+			 		$log.info(data);
+			 		$scope.getUserInfo();
+			 		$scope.articles={};
+			 		$scope.cur_feed_id=null;
+			 		$scope.cur_feed_name=null;
+			 		$scope.cur_site_url=null;
+			 		$scope.hide=true;
+			 		$scope.alertClass='success';
+	 				$scope.msg="Removed from your subscription list.";
+	 				$scope.msgDisp();
+
+	 		}
+	 			else{
+	 				$scope.msg=data.status;
+	 				$scope.alertClass='error';
+	 				$scope.msgDisp();
+
+
+	 		}
 
 
 	 		
 	 	}
-	 	);
+	 	).error(function(data,status){
+	 		$scope.alertClass='error';
+	 		$scope.msg=data.status;
+	 		$scope.msgDisp();
+	 	})
 
 	}
 
@@ -124,6 +146,16 @@ function SubscribeCtrl($scope,$http,$log){
 	 			 		
 	 	});
 
+	}
+
+	$scope.msgDisp=function(){
+		/*$log.info($compile('<div class="container alert {{alertClass}} fade in" ><button type="button" class="close" data-dismiss="alert">×</button>
+				            <span ng-bind="msg"></span>
+				        </div>'));*/
+			$('#msg').append($compile('<div class="container alert alert-{{alertClass}} fade in" ><button type="button" class="close" data-dismiss="alert">×</button><span ng-bind="msg"></span></div>')($scope));
+			setTimeout(function(){
+				$(".close").click();
+			},5000);
 	}
 		
 
