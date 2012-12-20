@@ -32,12 +32,24 @@ function SubscribeCtrl($scope,$http,$log,$compile){
 	 		//console.log($scope.disp_feed_name);
 	 		$scope.allFeeds=data;
 	 		$scope.feeds=data.subscriptions;
-	 		//$log.info($scope.feeds)
+	 		$log.info($scope.feeds)
 	 		$scope.hide=true;
+	 		$log.info($scope.feeds.length)
+	 		if($scope.feeds.length>0){
+	 			$scope.loadFeeds($scope.feeds[0].feed_id,$scope.feeds[0].feed_name,$scope.feeds[0].site_url);
+	 			$scope.empty="";
+	 		}
+	 			
+	 		else{
+	 			$scope.empty="No subscriptions here";
+	 		}
+	 		
 	 	}
 	 	);
 	 }
+
 	 $scope.getUserInfo();
+	
 
 
 	
@@ -155,7 +167,7 @@ function SubscribeCtrl($scope,$http,$log,$compile){
 			$('#msg').append($compile('<div class="container alert alert-{{alertClass}} fade in" ><button type="button" class="close" data-dismiss="alert">×</button><span ng-bind="msg"></span></div>')($scope));
 			setTimeout(function(){
 				$(".close").click();
-			},5000);
+			},5000);		
 	}
 		
 

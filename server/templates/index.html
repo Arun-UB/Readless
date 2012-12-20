@@ -54,7 +54,7 @@
                         </a>
 
                         <form class="navbar-search " id="navSearch">
-                            <input type="text" ng-model="searchText" class="search-query" placeholder="Search">
+                           <!--  <input type="text" ng-model="searchText" class="search-query" placeholder="Search"> -->
                         </form>
                         <ul class="nav pull-right">
 
@@ -105,6 +105,7 @@
                         <i class="icon-list"></i>
                         <strong>Subscriptions</strong>
                         <div id="sub-list">
+                          <span id="empty" ng-bind="empty"></span>
                             <ul ng-cloak class="unstyled">
                                 <li ng-click="loadFeeds(feed.feed_id,feed.feed_name,feed.site_url)" ng-repeat="feed in feeds" class="src"><span class="fav"><img ng-src="https://www.google.com/s2/favicons?domain={{feed.site_url}}&alt=feed"/></span><span ng-bind="feed.feed_name"></span><span ng-bind="uCount[feed.feed_id]" class="badge ">
 
@@ -137,7 +138,7 @@
                     </div>
 
                     <div id="options" class="pull-right">
-                    
+                     <input type="text" ng-model="searchText" class="search-query" placeholder="Search">
                       <!--  <div class="btn-group ">
                             <button class="btn">Mark all as read</button>
                             <button class="btn dropdown-toggle" data-toggle="dropdown">
