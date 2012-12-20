@@ -19,15 +19,16 @@
   {% if not session.logged_in %}
    <!-- <a href="{[ url_for('signin') ]}">log in</a>-->
   {% else %}
-    <a href="{[ url_for('signout') ]}">log out</a>
+    <a href="{[ url_for('signout') ]}">You are successful logged out</a>
   {% endif %}
   </div>
   {% for message in get_flashed_messages() %}
     
-    <div class="span4 alert alert-info fade in" >
+    <div class="span5 offset3 alert alert-info fade in" >
             <button type="button" class="close" data-dismiss="alert">×</button>
             <span>{[ message ]}</span>
           </div>
+          <br><br><br>
   {% endfor %}
   {% block body %}{% endblock %}
 </div>

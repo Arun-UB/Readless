@@ -29,13 +29,15 @@
 
         </header>
  
-    <div class="container">
+ <div class="container">  
  {% if error %} 
-<div class="container">
-  <div class="span5 offset3 alert alert-info fade in" >
+
+    <div class="span5 offset3 alert alert-info fade in" >
             <button type="button" class="close" data-dismiss="alert">×</button>
             <span>{[ error ]}</span>
-          </div> </div>{% endif %}
+    </div> 
+<br><br><br>
+    {% endif %}
 
         <form action="{[ url_for('signin') ]}" class="form-signin" method=post>
         <h3 class="form-signin-heading">Sign in</h3>
