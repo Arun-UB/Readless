@@ -91,13 +91,27 @@ function SubscribeCtrl($scope,$http,$log,$compile){
 	 		$scope.articles=data.articles;
 	 		$scope.uCount[$scope.cur_feed_id]=$scope.articles.length;
 	 		$scope.hide=false;
-	 		if($scope.articles.length==0)
+	 		if($scope.articles.length==0){
 	 			$scope.noFeeds="No new feeds avialble";
-	 		else
+	 		}
+	 			
+	 		else{
 	 			$scope.noFeeds="";
-	 			//console.log($scope.cur_site_url);
-	 			//console.log($scope.articles.length);
+	 		}
+	 			
+	 	/**Highlight the current subscrition**/
+	 	var i=1,found=false;
+	 	angular.forEach($scope.feeds,function(feed){	
 
+	 			if(feed.feed_id!=$scope.cur_feed_id && !found)
+	 				i++;
+	 			else
+	 				found=true;
+	 				
+	 		},i);
+	 	$('ul li').removeClass('cur');
+	 	$('#sub-list > ul li:nth-child('+i+')').addClass('cur');
+	 	
 
 	 		
 	 	}
