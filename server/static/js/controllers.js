@@ -82,9 +82,9 @@ function SubscribeCtrl($scope,$http,$log,$compile){
 	$scope.loadFeeds=function(feed_id,feed_name,site_url){
 		
 		$scope.url='getUnreadArticles/'+feed_id;
-		
-		$http.get($scope.url).success(function(data,status){
-
+		$scope.loading=false;
+		setTimeout(function(){$http.get($scope.url).success(function(data,status){
+			$scope.loading=true;
 	 		$scope.cur_feed_id=feed_id;
 	 		$scope.cur_feed_name=$scope.disp_feed_name[feed_id];
 	 		$scope.cur_site_url=site_url;
@@ -117,6 +117,7 @@ function SubscribeCtrl($scope,$http,$log,$compile){
 	 	}
 
 	 	);
+	},3000);
 	}
 
 	$scope.unsubscribe=function(feed_id){

@@ -72,10 +72,13 @@
                 </div>
             </div>
 
-
+  <div ng-hide="loading" class="container loading alert alert fade in">Loading...</div>
         </header>
+ 
         <div id="msg">
-        {% for message in get_flashed_messages() %}
+     
+
+                   {% for message in get_flashed_messages() %}
    
    <div class="span5 offset3 alert alert-info fade in" >
            <button type="button" class="close" data-dismiss="alert">×</button>
@@ -181,6 +184,7 @@
                           </ul> -->
                        </span>
                        <span class='span6' ng-bind='noFeeds' ></span>
+
                          <ul class="slats unstyled">
                           
   <li ng-repeat="article in articles | filter:searchText | orderBy:order:reverse" class="group">

@@ -144,5 +144,10 @@ padding: 10px 15px 15px 15px;
 .cur{
     font-weight: bold;
     color: #34699E;
-    
+
+}
+.loading{
+
+    width: 100px;
+    height: 20px;
 }
